@@ -1,0 +1,14 @@
+*.iml
+*.log
+
+/.idea
+/.vscode
+
+/out
+/target
+
+/src/main/resources/node_modules/**
+/src/main/resources/src/**/*.js
+/src/main/resources/src/**/*.js.map
+/src/main/resources/out/**/*.js
+/src/main/resources/index.html
