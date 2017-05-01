@@ -8,7 +8,10 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
 
-        <!--<mapping class="com." />-->
+        <mapping class="com.bsuir.task_manager.bean.entity.CategoryEntity"/>
+        <mapping class="com.bsuir.task_manager.bean.entity.RoleEntity"/>
+        <mapping class="com.bsuir.task_manager.bean.entity.TaskEntity"/>
+        <mapping class="com.bsuir.task_manager.bean.entity.UserEntity"/>
 
     </session-factory>
 </hibernate-configuration>
