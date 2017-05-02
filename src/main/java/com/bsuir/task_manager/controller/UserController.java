@@ -2,8 +2,6 @@ package com.bsuir.task_manager.controller;
 
 import com.bsuir.task_manager.bean.view.UserView;
 import com.bsuir.task_manager.controller.exception.ControllerException;
-import com.bsuir.task_manager.controller.exception.NotFoundControllerException;
-import com.bsuir.task_manager.controller.exception.WrongInputControllerException;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "/users")

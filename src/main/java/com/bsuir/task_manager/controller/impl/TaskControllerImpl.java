@@ -82,6 +82,17 @@ public class TaskControllerImpl implements TaskController {
     }
 
     @Override
+    public List<TaskView> getTasksByCategory(@PathVariable int categoryId, @RequestParam("userId") int userId) throws ControllerException {
+        try {
+            return service.getTasksByCategory(userId, categoryId);
+        } catch (WrongInputServiceException e) {
+            throw new WrongInputControllerException("Input fields are incorrect", e);
+        } catch (ServiceException e) {
+            throw new ControllerException("Error while perform getting tasks by category", e);
+        }
+    }
+
+    @Override
     public List<TaskView> getTasks(@RequestParam("userId") int userId) throws ControllerException {
         try {
             return service.getTasks(userId);

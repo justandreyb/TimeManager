@@ -1,15 +1,18 @@
 package com.bsuir.task_manager.bean.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "category", schema = "time_manager")
 public class CategoryEntity {
     private int id;
     private String name;
-    private byte isGlobal;
-    private byte isActive;
+    private boolean global;
+    private boolean active;
     private Integer creatorId;
     private List<TaskEntity> tasks;
 
@@ -34,23 +37,25 @@ public class CategoryEntity {
     }
 
     @Basic
-    @Column(name = "is_global", nullable = false)
-    public byte getIsGlobal() {
-        return isGlobal;
+    @Column(name = "is_global", nullable = false, columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean isGlobal() {
+        return global;
     }
 
-    public void setIsGlobal(byte isGlobal) {
-        this.isGlobal = isGlobal;
+    public void setGlobal(boolean global) {
+        this.global = global;
     }
 
     @Basic
-    @Column(name = "is_active", nullable = false)
-    public byte getIsActive() {
-        return isActive;
+    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean isActive() {
+        return active;
     }
 
-    public void setIsActive(byte isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Basic
@@ -63,32 +68,6 @@ public class CategoryEntity {
         this.creatorId = creatorId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CategoryEntity that = (CategoryEntity) o;
-
-        if (id != that.id) return false;
-        if (isGlobal != that.isGlobal) return false;
-        if (isActive != that.isActive) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (creatorId != null ? !creatorId.equals(that.creatorId) : that.creatorId != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) isGlobal;
-        result = 31 * result + (int) isActive;
-        result = 31 * result + (creatorId != null ? creatorId.hashCode() : 0);
-        return result;
-    }
-
     @OneToMany(mappedBy = "category")
     public List<TaskEntity> getTasks() {
         return tasks;
@@ -96,5 +75,23 @@ public class CategoryEntity {
 
     public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryEntity that = (CategoryEntity) o;
+        return id == that.id &&
+                global == that.global &&
+                active == that.active &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(creatorId, that.creatorId) &&
+                Objects.equals(tasks, that.tasks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, global, active, creatorId, tasks);
     }
 }

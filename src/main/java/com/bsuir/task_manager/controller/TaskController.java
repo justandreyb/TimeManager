@@ -26,4 +26,9 @@ public interface TaskController {
     @GetMapping("/{taskId}/delete")
     void deleteTask(@PathVariable int taskId) throws ControllerException;
 
+    @GetMapping("/categories/{categoryId}")
+    @ResponseBody
+    List<TaskView> getTasksByCategory(@PathVariable int categoryId, @RequestParam("userId") int userId) throws ControllerException;
+
+
 }

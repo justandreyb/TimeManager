@@ -1,7 +1,6 @@
 package com.bsuir.task_manager.controller.impl;
 
 import com.bsuir.task_manager.bean.view.CategoryView;
-import com.bsuir.task_manager.bean.view.TaskView;
 import com.bsuir.task_manager.controller.CategoryController;
 import com.bsuir.task_manager.controller.exception.ControllerException;
 import com.bsuir.task_manager.controller.exception.WrongInputControllerException;
@@ -12,9 +11,8 @@ import com.bsuir.task_manager.service.exception.ExistsServiceException;
 import com.bsuir.task_manager.service.exception.NotFoundServiceException;
 import com.bsuir.task_manager.service.exception.ServiceException;
 import com.bsuir.task_manager.service.exception.WrongInputServiceException;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -125,40 +123,4 @@ public class CategoryControllerImpl implements CategoryController {
         }
     }
 
-    @Override
-    public List<TaskView> getTasksByCategory(@PathVariable int categoryId) throws ControllerException {
-        try {
-            return categoryService.getTasksByCategory(categoryId);
-        } catch (WrongInputServiceException e) {
-            throw new WrongInputControllerException("Input fields are incorrect", e);
-        } catch (ServiceException e) {
-            throw new ControllerException("Error while perform getting tasks by category", e);
-        }
-    }
-
-    @Override
-    public void addTaskToCategory(@PathVariable int categoryId, @RequestParam("taskId") int taskId, @RequestParam("userId") int userId) throws ControllerException {
-        try {
-            categoryService.addTask(userId, categoryId, taskId);
-        } catch (NotFoundServiceException e) {
-            throw new CategoryNotFoundControllerException("Category doesn't exists", e);
-        } catch (WrongInputServiceException e) {
-            throw new WrongInputControllerException("Input fields are incorrect", e);
-        } catch (ServiceException e) {
-            throw new ControllerException("Error while perform adding category", e);
-        }
-    }
-
-    @Override
-    public void deleteTaskFromCategory(@PathVariable int categoryId, @PathVariable int taskId) throws ControllerException {
-        try {
-            categoryService.deleteTask(categoryId, taskId);
-        } catch (NotFoundServiceException e) {
-            throw new CategoryNotFoundControllerException("Category doesn't exists", e);
-        } catch (WrongInputServiceException e) {
-            throw new WrongInputControllerException("Input fields are incorrect", e);
-        } catch (ServiceException e) {
-            throw new ControllerException("Error while perform adding category", e);
-        }
-    }
 }

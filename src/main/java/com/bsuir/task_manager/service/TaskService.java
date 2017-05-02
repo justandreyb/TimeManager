@@ -11,6 +11,7 @@ public interface TaskService {
 
     TaskView getTask(int taskId) throws ServiceException;
     List<TaskView> getTasks(int userId) throws ServiceException;
+    List<TaskView> getTasksByCategory(int userId, int categoryId) throws ServiceException;
 
     void updateTask(int taskId, TaskView task) throws ServiceException;
 
