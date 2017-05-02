@@ -8,10 +8,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>
-            /WEB-INF/spring.core.config.xml
-            /WEB-INF/hibernate.app.config.xml
-        </param-value>
+        <param-value>/WEB-INF/spring.core.config.xml</param-value>
     </context-param>
 
     <listener>
@@ -21,12 +18,17 @@
     <servlet>
         <servlet-name>SpringDispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring.core.config.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>SpringDispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/storage/*</url-pattern>
+        <url-pattern>/analyzer/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
