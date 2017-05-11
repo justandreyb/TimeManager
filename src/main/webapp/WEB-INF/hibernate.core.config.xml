@@ -9,6 +9,7 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="com.bsuir.task_manager.bean.entity.CategoryEntity"/>
+        <mapping class="com.bsuir.task_manager.bean.entity.ProjectEntity"/>
         <mapping class="com.bsuir.task_manager.bean.entity.RoleEntity"/>
         <mapping class="com.bsuir.task_manager.bean.entity.TaskEntity"/>
         <mapping class="com.bsuir.task_manager.bean.entity.UserEntity"/>

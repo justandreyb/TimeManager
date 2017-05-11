@@ -1,7 +1,5 @@
 package com.bsuir.task_manager.bean.entity;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -13,14 +11,14 @@ public class TaskEntity {
     private String name;
     private String description;
     private boolean deleted;
-    private boolean active;
     private Timestamp startDate;
     private Timestamp finishDate;
     private byte importance;
-    private byte priority;
-    private Byte interestingness;
+    private boolean finished;
+    private byte complexity;
+    private byte urgency;
     private CategoryEntity category;
-    private UserEntity user;
+    private ProjectEntity project;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -53,25 +51,13 @@ public class TaskEntity {
     }
 
     @Basic
-    @Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "is_deleted", nullable = false)
     public boolean isDeleted() {
         return deleted;
     }
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    @Basic
-    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     @Basic
@@ -105,25 +91,56 @@ public class TaskEntity {
     }
 
     @Basic
-    @Column(name = "priority", nullable = false)
-    public byte getPriority() {
-        return priority;
+    @Column(name = "is_finished", nullable = false)
+    public boolean isFinished() {
+        return finished;
     }
 
-    public void setPriority(byte priority) {
-        this.priority = priority;
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     @Basic
-    @Column(name = "interestingness", nullable = true)
-    public Byte getInterestingness() {
-        return interestingness;
+    @Column(name = "complexity", nullable = false)
+    public byte getComplexity() {
+        return complexity;
     }
 
-    public void setInterestingness(Byte interestingness) {
-        this.interestingness = interestingness;
+    public void setComplexity(byte complexity) {
+        this.complexity = complexity;
     }
 
+    @Basic
+    @Column(name = "urgency", nullable = false)
+    public byte getUrgency() {
+        return urgency;
+    }
+
+    public void setUrgency(byte urgency) {
+        this.urgency = urgency;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskEntity that = (TaskEntity) o;
+        return id == that.id &&
+                deleted == that.deleted &&
+                importance == that.importance &&
+                finished == that.finished &&
+                complexity == that.complexity &&
+                urgency == that.urgency &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(startDate, that.startDate) &&
+                Objects.equals(finishDate, that.finishDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, deleted, startDate, finishDate, importance, finished, complexity, urgency);
+    }
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
@@ -136,36 +153,12 @@ public class TaskEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    public UserEntity getUser() {
-        return user;
+    @JoinColumn(name = "project_id", referencedColumnName = "id", nullable = false)
+    public ProjectEntity getProject() {
+        return project;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TaskEntity that = (TaskEntity) o;
-        return id == that.id &&
-                deleted == that.deleted &&
-                active == that.active &&
-                importance == that.importance &&
-                priority == that.priority &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(startDate, that.startDate) &&
-                Objects.equals(finishDate, that.finishDate) &&
-                Objects.equals(interestingness, that.interestingness) &&
-                Objects.equals(category, that.category) &&
-                Objects.equals(user, that.user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, deleted, active, startDate, finishDate, importance, priority, interestingness, category, user);
+    public void setProject(ProjectEntity project) {
+        this.project = project;
     }
 }

@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
         if (!Validator.isValid(task)) {
             throw new WrongInputServiceException("Invalid fields in new task");
         }
-        TaskEntity taskEntity = Exchanger.exchangeFromViewToEntity(task);
+        TaskEntity taskEntity = Exchanger.exchange(task);
         try {
             taskDAO.addTask(userId, taskEntity);
         } catch (ExistsDAOException e) {
@@ -56,7 +56,7 @@ public class TaskServiceImpl implements TaskService {
         }
         try {
             TaskEntity taskEntity = taskDAO.getTask(taskId);
-            return Exchanger.exchangeFromEntityToView(taskEntity);
+            return Exchanger.exchange(taskEntity);
         } catch (NotFoundDAOException e) {
             throw new NotFoundServiceException("Task doesn't exists", e);
         } catch (DAOException e) {
@@ -73,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
             List<TaskEntity> taskEntities = taskDAO.getTasks(userId);
             List<TaskView> taskViews = new LinkedList<TaskView>();
             for (TaskEntity taskEntity : taskEntities) {
-                TaskView taskView = Exchanger.exchangeFromEntityToView(taskEntity);
+                TaskView taskView = Exchanger.exchange(taskEntity);
                 taskViews.add(taskView);
             }
             return taskViews;
@@ -94,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
             List<TaskEntity> taskEntities = taskDAO.getTasksByCategory(userId, categoryId);
             List<TaskView> taskViews = new LinkedList<TaskView>();
             for (TaskEntity taskEntity : taskEntities) {
-                TaskView taskView = Exchanger.exchangeFromEntityToView(taskEntity);
+                TaskView taskView = Exchanger.exchange(taskEntity);
                 taskViews.add(taskView);
             }
             return taskViews;
@@ -111,7 +111,7 @@ public class TaskServiceImpl implements TaskService {
         if (!Validator.isValid(task)) {
             throw new WrongInputServiceException("Invalid fields in task");
         }
-        TaskEntity taskEntity = Exchanger.exchangeFromViewToEntity(task);
+        TaskEntity taskEntity = Exchanger.exchange(task);
         try {
             taskDAO.updateTask(taskId, taskEntity);
         } catch (NotFoundDAOException e) {

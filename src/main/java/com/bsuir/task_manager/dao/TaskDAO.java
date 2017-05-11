@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface TaskDAO {
 
-    void addTask(int userId, TaskEntity task) throws DAOException;
+    void addTask(int projectId, TaskEntity task) throws DAOException;
 
     TaskEntity getTask(int taskId) throws DAOException;
 
-    List<TaskEntity> getTasks(int userId) throws DAOException;
-    List<TaskEntity> getTasksByCategory(int userId, int categoryId) throws DAOException;
+    List<TaskEntity> getTasks(int projectId) throws DAOException;
+    List<TaskEntity> getTasksByCategory(int projectId, int categoryId) throws DAOException;
 
     void updateTask(int taskId, TaskEntity task) throws DAOException;
 

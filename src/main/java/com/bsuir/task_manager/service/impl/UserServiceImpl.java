@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         if (!Validator.isValid(user)) {
             throw new WrongInputServiceException("Invalid fields in user");
         }
-        UserEntity userEntity = Exchanger.exchangeFromViewToEntity(user);
+        UserEntity userEntity = Exchanger.exchange(user);
         try {
             userDAO.createUser(userEntity);
         } catch (ExistsDAOException e) {
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         }
         try {
             UserEntity userEntity = userDAO.getUser(email, password);
-            return Exchanger.exchangeFromEntityToView(userEntity);
+            return Exchanger.exchange(userEntity);
         } catch (NotFoundDAOException e) {
             throw new NotFoundServiceException("User doesn't exists", e);
         } catch (DAOException e) {
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
             throw new WrongInputServiceException("Invalid fields in user");
         }
         try {
-            UserEntity userEntity = Exchanger.exchangeFromViewToEntity(user);
+            UserEntity userEntity = Exchanger.exchange(user);
             userDAO.updateUser(userId, userEntity);
         } catch (NotFoundDAOException e) {
             throw new NotFoundServiceException("User doesn't exists", e);

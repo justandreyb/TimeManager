@@ -1,9 +1,6 @@
 package com.bsuir.task_manager.service.util;
 
-import com.bsuir.task_manager.bean.view.CategoryView;
-import com.bsuir.task_manager.bean.view.RoleView;
-import com.bsuir.task_manager.bean.view.TaskView;
-import com.bsuir.task_manager.bean.view.UserView;
+import com.bsuir.task_manager.bean.view.*;
 
 public class Validator {
 
@@ -20,6 +17,10 @@ public class Validator {
     }
 
     public static boolean isValid(RoleView role) {
+        return false;
+    }
+
+    public static boolean isValid(ProjectView project) {
         return false;
     }
 

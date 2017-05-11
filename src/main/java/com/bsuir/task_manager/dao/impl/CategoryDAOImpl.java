@@ -21,8 +21,8 @@ public class CategoryDAOImpl implements CategoryDAO {
     private static final String STORAGE_EXCEPTION = "Something went wrong while trying to access storage";
 
     private static final boolean GLOBAL_STATE = true;
-    private static final boolean NOT_DELETED_STATE = true;
-    private static final boolean DELETED_STATE = false;
+    private static final boolean NOT_DELETED_STATE = false;
+    private static final boolean DELETED_STATE = true;
 
     private static final String GET_CATEGORY_QUERY =
             "from CategoryEntity " +
@@ -106,12 +106,12 @@ public class CategoryDAOImpl implements CategoryDAO {
         query.setParameter("inputUser", userId);
         query.setParameter("inputDeleted", NOT_DELETED_STATE);
 
-        List<CategoryEntity> tasks = (List<CategoryEntity>) query.getResultList();
+        List<CategoryEntity> categories = (List<CategoryEntity>) query.getResultList();
 
-        if (tasks == null) {
+        if (categories == null) {
             throw new DAOException("Error while getting categories by user");
         }
-        return tasks;
+        return categories;
     }
 
     @Override

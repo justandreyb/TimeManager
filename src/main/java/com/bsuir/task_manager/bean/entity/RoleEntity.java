@@ -31,6 +31,20 @@ public class RoleEntity {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoleEntity that = (RoleEntity) o;
+        return id == that.id &&
+                Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, value);
+    }
+
     @OneToMany(mappedBy = "role")
     public List<UserEntity> getUsers() {
         return users;
@@ -38,20 +52,5 @@ public class RoleEntity {
 
     public void setUsers(List<UserEntity> users) {
         this.users = users;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RoleEntity that = (RoleEntity) o;
-        return id == that.id &&
-                Objects.equals(value, that.value) &&
-                Objects.equals(users, that.users);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, value, users);
     }
 }

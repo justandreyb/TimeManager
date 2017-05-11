@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (!Validator.isValid(category)) {
             throw new WrongInputServiceException("Invalid fields in new category");
         }
-        CategoryEntity categoryEntity = Exchanger.exchangeFromViewToEntity(category);
+        CategoryEntity categoryEntity = Exchanger.exchange(category);
         try {
             categoryDAO.addCategory(userId, categoryEntity);
         } catch (ExistsDAOException e) {
@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         try {
             CategoryEntity categoryEntity = categoryDAO.getCategory(categoryId);
-            return Exchanger.exchangeFromEntityToView(categoryEntity);
+            return Exchanger.exchange(categoryEntity);
         } catch (NotFoundDAOException e) {
             throw new NotFoundServiceException("Category doesn't exists", e);
         } catch (DAOException e) {
@@ -70,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
             List<CategoryEntity> categoryEntities = categoryDAO.getDefaultCategories();
             List<CategoryView> categoryViews = new LinkedList<CategoryView>();
             for (CategoryEntity categoryEntity : categoryEntities) {
-                CategoryView categoryView = Exchanger.exchangeFromEntityToView(categoryEntity);
+                CategoryView categoryView = Exchanger.exchange(categoryEntity);
                 categoryViews.add(categoryView);
             }
             return categoryViews;
@@ -88,7 +88,7 @@ public class CategoryServiceImpl implements CategoryService {
             List<CategoryEntity> categoryEntities = categoryDAO.getCategoriesByUser(userId);
             List<CategoryView> categoryViews = new LinkedList<CategoryView>();
             for (CategoryEntity categoryEntity : categoryEntities) {
-                CategoryView categoryView = Exchanger.exchangeFromEntityToView(categoryEntity);
+                CategoryView categoryView = Exchanger.exchange(categoryEntity);
                 categoryViews.add(categoryView);
             }
             return categoryViews;
@@ -105,7 +105,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (!Validator.isValid(category)) {
             throw new WrongInputServiceException("Invalid fields in category");
         }
-        CategoryEntity categoryEntity = Exchanger.exchangeFromViewToEntity(category);
+        CategoryEntity categoryEntity = Exchanger.exchange(category);
         try {
             categoryDAO.updateCategory(categoryId, categoryEntity);
         } catch (NotFoundDAOException e) {

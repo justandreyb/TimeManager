@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "/user/tasks")
+@RequestMapping(value = "/users/{userId}/projects/{projectId}/tasks")
 public interface TaskController {
 
     @GetMapping
     @ResponseBody
-    List<TaskView> getTasks(@RequestParam("userId") int userId) throws ControllerException;
+    List<TaskView> getTasks(@PathVariable int projectId) throws ControllerException;
 
     @PostMapping("/add")
-    void addTask(@RequestBody TaskView task, @RequestParam("userId") int userId) throws ControllerException;
+    void addTask(@RequestBody TaskView task, @PathVariable int projectId) throws ControllerException;
 
     @GetMapping("/{taskId}")
     @ResponseBody
@@ -28,7 +28,7 @@ public interface TaskController {
 
     @GetMapping("/categories/{categoryId}")
     @ResponseBody
-    List<TaskView> getTasksByCategory(@PathVariable int categoryId, @RequestParam("userId") int userId) throws ControllerException;
+    List<TaskView> getTasksByCategory(@PathVariable int categoryId, @PathVariable int projectId) throws ControllerException;
 
 
 }

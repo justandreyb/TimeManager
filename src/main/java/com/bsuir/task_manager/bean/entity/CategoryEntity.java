@@ -1,7 +1,5 @@
 package com.bsuir.task_manager.bean.entity;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -37,8 +35,7 @@ public class CategoryEntity {
     }
 
     @Basic
-    @Column(name = "is_global", nullable = false, columnDefinition = "TINYINT")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "is_global", nullable = false)
     public boolean isGlobal() {
         return global;
     }
@@ -48,8 +45,7 @@ public class CategoryEntity {
     }
 
     @Basic
-    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "is_active", nullable = false)
     public boolean isActive() {
         return active;
     }
@@ -68,15 +64,6 @@ public class CategoryEntity {
         this.creatorId = creatorId;
     }
 
-    @OneToMany(mappedBy = "category")
-    public List<TaskEntity> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<TaskEntity> tasks) {
-        this.tasks = tasks;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,12 +73,20 @@ public class CategoryEntity {
                 global == that.global &&
                 active == that.active &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(creatorId, that.creatorId) &&
-                Objects.equals(tasks, that.tasks);
+                Objects.equals(creatorId, that.creatorId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, global, active, creatorId, tasks);
+        return Objects.hash(id, name, global, active, creatorId);
+    }
+
+    @OneToMany(mappedBy = "category")
+    public List<TaskEntity> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskEntity> tasks) {
+        this.tasks = tasks;
     }
 }

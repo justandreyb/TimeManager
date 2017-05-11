@@ -1,7 +1,5 @@
 package com.bsuir.task_manager.bean.entity;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -13,8 +11,8 @@ public class UserEntity {
     private String nickname;
     private String email;
     private String password;
-    private boolean active;
-    private List<TaskEntity> tasks;
+    private boolean deleted;
+    private List<ProjectEntity> projects;
     private RoleEntity role;
 
     @Id
@@ -58,23 +56,39 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "is_active", nullable = false, columnDefinition = "TINYINT")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    public boolean isActive() {
-        return active;
+    @Column(name = "is_deleted", nullable = false)
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return id == that.id &&
+                deleted == that.deleted &&
+                Objects.equals(nickname, that.nickname) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(password, that.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nickname, email, password, deleted);
     }
 
     @OneToMany(mappedBy = "user")
-    public List<TaskEntity> getTasks() {
-        return tasks;
+    public List<ProjectEntity> getProjects() {
+        return projects;
     }
 
-    public void setTasks(List<TaskEntity> tasks) {
-        this.tasks = tasks;
+    public void setProjects(List<ProjectEntity> projects) {
+        this.projects = projects;
     }
 
     @ManyToOne
@@ -85,24 +99,5 @@ public class UserEntity {
 
     public void setRole(RoleEntity role) {
         this.role = role;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return id == that.id &&
-                active == that.active &&
-                Objects.equals(nickname, that.nickname) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(password, that.password) &&
-                Objects.equals(tasks, that.tasks) &&
-                Objects.equals(role, that.role);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nickname, email, password, active, tasks, role);
     }
 }

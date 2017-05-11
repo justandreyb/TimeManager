@@ -22,14 +22,14 @@ public class TaskDAOImpl implements TaskDAO {
 
     private static final String STORAGE_EXCEPTION = "Something went wrong while trying to access storage";
 
-    private static final boolean NOT_DELETED_STATE = true;
-    private static final boolean DELETED_STATE = false;
+    private static final boolean NOT_DELETED_STATE = false;
+    private static final boolean DELETED_STATE = true;
 
-    private static final String GET_USER_QUERY =
-            "from UserEntity " +
+    private static final String GET_PROJECT_QUERY =
+            "from ProjectEntity " +
             "where " +
                 "id = :inputId and " +
-                "active = :inputActive";
+                "deleted = :inputActive";
 
     private static final String GET_CATEGORY_QUERY =
             "from CategoryEntity " +
@@ -40,27 +40,27 @@ public class TaskDAOImpl implements TaskDAO {
     private static final String GET_TASK_QUERY =
             "from TaskEntity " +
             "where " +
-                "user = :inputUser and " +
+                "project = :inputProject and " +
                 "name = :inputName and " +
                 "deleted = :inputDeleted";
 
     private static final String GET_TASKS_QUERY =
             "from TaskEntity " +
             "where " +
-                "user = :inputUser and " +
+                "project = :inputProject and " +
                 "deleted = :inputDeleted";
 
     private static final String GET_TASKS_BY_CATEGORY_QUERY =
             "from TaskEntity " +
             "where " +
-                "user = :inputUser and " +
+                "project = :inputProject and " +
                 "category = :inputCategory and " +
                 "deleted = :inputDeleted";
 
     private static final String SET_ACTIVE_STATE_QUERY =
             "update TaskEntity " +
             "set " +
-                "active = :inputActive " +
+                "deleted = :inputActive " +
             "where " +
                 "id = :inputId and " +
                 "deleted = :inputDeleted";
@@ -77,13 +77,13 @@ public class TaskDAOImpl implements TaskDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    private UserEntity getUserFromStorage(Session session, int userId) throws DAOException {
-        Query query = session.createQuery(GET_USER_QUERY);
-        query.setParameter("inputId", userId);
+    private UserEntity getProjectFromStorage(Session session, int projectId) throws DAOException {
+        Query query = session.createQuery(GET_PROJECT_QUERY);
+        query.setParameter("inputId", projectId);
         query.setParameter("inputActive", NOT_DELETED_STATE);
         UserEntity userEntity = (UserEntity) query.getSingleResult();
         if (userEntity == null) {
-            throw new DAOException("User not found");
+            throw new DAOException("Project not found");
         }
         return userEntity;
     }
@@ -99,9 +99,9 @@ public class TaskDAOImpl implements TaskDAO {
         return categoryEntity;
     }
 
-    private TaskEntity getTaskFromStorage(Session session, int userId, String taskName) throws DAOException {
+    private TaskEntity getTaskFromStorage(Session session, int projectId, String taskName) throws DAOException {
         Query query = session.createQuery(GET_TASK_QUERY);
-        query.setParameter("inputUser", getUserFromStorage(session, userId));
+        query.setParameter("inputProject", getProjectFromStorage(session, projectId));
         query.setParameter("inputName", taskName);
         query.setParameter("inputDeleted", NOT_DELETED_STATE);
 
@@ -109,13 +109,13 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public void addTask(int userId, TaskEntity task) throws DAOException {
+    public void addTask(int projectId, TaskEntity task) throws DAOException {
         Session session = sessionFactory.getCurrentSession();
         if (session == null) {
             throw new DAOException(STORAGE_EXCEPTION);
         }
 
-        TaskEntity existsTask = getTaskFromStorage(session, userId, task.getName());
+        TaskEntity existsTask = getTaskFromStorage(session, projectId, task.getName());
         if (existsTask != null) {
             throw new ExistsDAOException("Task already exists");
         }
@@ -139,13 +139,13 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public List<TaskEntity> getTasks(int userId) throws DAOException {
+    public List<TaskEntity> getTasks(int projectId) throws DAOException {
         Session session = sessionFactory.getCurrentSession();
         if (session == null) {
             throw new DAOException(STORAGE_EXCEPTION);
         }
         Query query = session.createQuery(GET_TASKS_QUERY);
-        query.setParameter("inputUser", getUserFromStorage(session, userId));
+        query.setParameter("inputProject", getProjectFromStorage(session, projectId));
         query.setParameter("inputDeleted", NOT_DELETED_STATE);
 
         List<TaskEntity> tasks = (List<TaskEntity>) query.getResultList();
@@ -157,13 +157,13 @@ public class TaskDAOImpl implements TaskDAO {
     }
 
     @Override
-    public List<TaskEntity> getTasksByCategory(int userId, int categoryId) throws DAOException {
+    public List<TaskEntity> getTasksByCategory(int projectId, int categoryId) throws DAOException {
         Session session = sessionFactory.getCurrentSession();
         if (session == null) {
             throw new DAOException(STORAGE_EXCEPTION);
         }
         Query query = session.createQuery(GET_TASKS_BY_CATEGORY_QUERY);
-        query.setParameter("inputUser", getUserFromStorage(session, userId));
+        query.setParameter("inputProject", getProjectFromStorage(session, projectId));
         query.setParameter("inputCategory", getCategoryFromStorage(session, categoryId));
         query.setParameter("inputDeleted", NOT_DELETED_STATE);
 

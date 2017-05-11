@@ -20,20 +20,20 @@ public class UserDAOImpl implements UserDAO {
     private static final String STORAGE_EXCEPTION = "Something went wrong while trying to access storage";
     
     private static final int USER_ROLE = 2;
-    private static final boolean DELETED_STATE = false;
-    private static final boolean ACTIVE_STATE = true;
+    private static final boolean DELETED_STATE = true;
+    private static final boolean ACTIVE_STATE = false;
 
     private static final String GET_USER_QUERY =
             "from UserEntity " +
             "where " +
                 "email = :inputEmail and " +
                 "password = :inputPass and " +
-                "active = :inputActive";
+                "deleted = :inputActive";
 
     private static final String DELETE_USER_QUERY =
             "update UserEntity " +
             "set " +
-                "active = :inputActive " +
+                "deleted = :inputActive " +
             "where " +
                 "id = :inputId";
 
