@@ -6,12 +6,14 @@ import com.bsuir.task_manager.controller.exception.ControllerException;
 import com.bsuir.task_manager.controller.exception.WrongInputControllerException;
 import com.bsuir.task_manager.controller.exception.task.TaskExistsControllerException;
 import com.bsuir.task_manager.controller.exception.task.TaskNotFoundControllerException;
+import com.bsuir.task_manager.security.TokenAuthentication;
 import com.bsuir.task_manager.service.TaskService;
 import com.bsuir.task_manager.service.exception.ExistsServiceException;
 import com.bsuir.task_manager.service.exception.NotFoundServiceException;
 import com.bsuir.task_manager.service.exception.ServiceException;
 import com.bsuir.task_manager.service.exception.WrongInputServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,9 +32,13 @@ public class TaskControllerImpl implements TaskController {
     }
 
     @Override
-    public void addTask(@RequestBody TaskView task, @RequestParam("userId") int userId) throws ControllerException {
+    public void addTask(@RequestBody TaskView task, @PathVariable int projectId, @PathVariable int userId) throws ControllerException {
         try {
-            service.createTask(userId, task);
+            int currentUserId = getSessionUserId();
+            if (currentUserId != userId) {
+                throw new ControllerException("Forbidden");
+            }
+            service.createTask(projectId, task);
         } catch (ExistsServiceException e) {
             throw new TaskExistsControllerException("Task already exists", e);
         } catch (WrongInputServiceException e) {
@@ -43,8 +49,12 @@ public class TaskControllerImpl implements TaskController {
     }
 
     @Override
-    public TaskView getTask(@PathVariable int taskId) throws ControllerException {
+    public TaskView getTask(@PathVariable int taskId, @PathVariable int userId) throws ControllerException {
         try {
+            int currentUserId = getSessionUserId();
+            if (currentUserId != userId) {
+                throw new ControllerException("Forbidden");
+            }
             return service.getTask(taskId);
         } catch (NotFoundServiceException e) {
             throw new TaskNotFoundControllerException("Task doesn't exists", e);
@@ -56,9 +66,13 @@ public class TaskControllerImpl implements TaskController {
     }
 
     @Override
-    public void updateTask(@PathVariable int taskId, @RequestBody TaskView task) throws ControllerException {
+    public void updateTask(@PathVariable int taskId, @PathVariable int projectId, @PathVariable int userId, @RequestBody TaskView task) throws ControllerException {
         try {
-            service.updateTask(taskId, task);
+            int currentUserId = getSessionUserId();
+            if (currentUserId != userId) {
+                throw new ControllerException("Forbidden");
+            }
+            service.updateTask(projectId, task);
         } catch (NotFoundServiceException e) {
             throw new TaskNotFoundControllerException("Task doesn't exists", e);
         } catch (WrongInputServiceException e) {
@@ -69,8 +83,12 @@ public class TaskControllerImpl implements TaskController {
     }
 
     @Override
-    public void deleteTask(@PathVariable int taskId) throws ControllerException {
+    public void deleteTask(@PathVariable int taskId, @PathVariable int userId) throws ControllerException {
         try {
+            int currentUserId = getSessionUserId();
+            if (currentUserId != userId) {
+                throw new ControllerException("Forbidden");
+            }
             service.deleteTask(taskId);
         } catch (NotFoundServiceException e) {
             throw new TaskNotFoundControllerException("Task doesn't exists", e);
@@ -82,9 +100,13 @@ public class TaskControllerImpl implements TaskController {
     }
 
     @Override
-    public List<TaskView> getTasksByCategory(@PathVariable int categoryId, @RequestParam("userId") int userId) throws ControllerException {
+    public List<TaskView> getTasksByCategory(@PathVariable int categoryId, @PathVariable int projectId, @PathVariable int userId) throws ControllerException {
         try {
-            return service.getTasksByCategory(userId, categoryId);
+            int currentUserId = getSessionUserId();
+            if (currentUserId != userId) {
+                throw new ControllerException("Forbidden");
+            }
+            return service.getTasksByCategory(projectId, categoryId);
         } catch (WrongInputServiceException e) {
             throw new WrongInputControllerException("Input fields are incorrect", e);
         } catch (ServiceException e) {
@@ -93,13 +115,23 @@ public class TaskControllerImpl implements TaskController {
     }
 
     @Override
-    public List<TaskView> getTasks(@RequestParam("userId") int userId) throws ControllerException {
+    public List<TaskView> getTasks(@PathVariable int projectId, @PathVariable int userId) throws ControllerException {
         try {
-            return service.getTasks(userId);
+            int currentUserId = getSessionUserId();
+            if (currentUserId != userId) {
+                throw new ControllerException("Forbidden");
+            }
+            return service.getTasks(projectId);
         } catch (WrongInputServiceException e) {
             throw new WrongInputControllerException("Input fields are incorrect", e);
         } catch (ServiceException e) {
             throw new ControllerException("Error while perform getting tasks", e);
         }
+    }
+
+    private int getSessionUserId() {
+        TokenAuthentication tokenAuthentication;
+        tokenAuthentication = (TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+        return ((int)tokenAuthentication.getDetails());
     }
 }

@@ -30,6 +30,12 @@ public class UserDAOImpl implements UserDAO {
                 "password = :inputPass and " +
                 "deleted = :inputActive";
 
+    private static final String GET_USER_BY_EMAIL_QUERY =
+            "from UserEntity " +
+            "where " +
+                "email = :inputEmail and " +
+                "deleted = :inputActive";
+
     private static final String DELETE_USER_QUERY =
             "update UserEntity " +
             "set " +
@@ -44,8 +50,18 @@ public class UserDAOImpl implements UserDAO {
 
     private UserEntity getUserFromStorage(Session session, String email, String password) {
         Query query = session.createQuery(GET_USER_QUERY);
+
         query.setParameter("inputEmail", email);
         query.setParameter("inputPass", password);
+        query.setParameter("inputActive", ACTIVE_STATE);
+
+        return (UserEntity) query.getSingleResult();
+    }
+
+    private UserEntity getUserFromStorageByEmail(Session session, String email) {
+        Query query = session.createQuery(GET_USER_BY_EMAIL_QUERY);
+
+        query.setParameter("inputEmail", email);
         query.setParameter("inputActive", ACTIVE_STATE);
 
         return (UserEntity) query.getSingleResult();
@@ -77,6 +93,21 @@ public class UserDAOImpl implements UserDAO {
         }
 
         user = getUserFromStorage(session, email, password);
+        if (user == null) {
+            throw new NotFoundDAOException("User not found");
+        }
+        return user;
+    }
+
+    @Override
+    public UserEntity getUserByEmail(String email) throws DAOException {
+        UserEntity user;
+        Session session = sessionFactory.getCurrentSession();
+        if (session == null) {
+            throw new DAOException(STORAGE_EXCEPTION);
+        }
+
+        user = getUserFromStorageByEmail(session, email);
         if (user == null) {
             throw new NotFoundDAOException("User not found");
         }

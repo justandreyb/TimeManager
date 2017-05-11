@@ -62,6 +62,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserView getUserByEmail(String email) throws ServiceException {
+        if (!Validator.isValidEmail(email)) {
+            throw new WrongInputServiceException("Incorrect email");
+        }
+        try {
+            UserEntity userEntity = userDAO.getUserByEmail(email);
+            return Exchanger.exchange(userEntity);
+        } catch (NotFoundDAOException e) {
+            throw new NotFoundServiceException("User doesn't exists", e);
+        } catch (DAOException e) {
+            throw new ServiceException("Something went wrong while getting user", e);
+        }
+    }
+
+    @Override
     public void updateUser(int userId, UserView user) throws ServiceException {
         if (!Validator.isValid(userId)) {
             throw new WrongInputServiceException("Incorrect user id");

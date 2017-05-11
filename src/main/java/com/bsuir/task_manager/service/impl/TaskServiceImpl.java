@@ -32,16 +32,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void createTask(int userId, TaskView task) throws ServiceException {
-        if (!Validator.isValid(userId)) {
-            throw new WrongInputServiceException("Invalid user id");
+    public void createTask(int projectId, TaskView task) throws ServiceException {
+        if (!Validator.isValid(projectId)) {
+            throw new WrongInputServiceException("Invalid project id");
         }
         if (!Validator.isValid(task)) {
             throw new WrongInputServiceException("Invalid fields in new task");
         }
         TaskEntity taskEntity = Exchanger.exchange(task);
         try {
-            taskDAO.addTask(userId, taskEntity);
+            taskDAO.addTask(projectId, taskEntity);
         } catch (ExistsDAOException e) {
             throw new ExistsServiceException("Task already exists", e);
         } catch (DAOException e) {
@@ -65,12 +65,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskView> getTasks(int userId) throws ServiceException {
-        if (!Validator.isValid(userId)) {
+    public List<TaskView> getTasks(int projectId) throws ServiceException {
+        if (!Validator.isValid(projectId)) {
             throw new WrongInputServiceException("Incorrect user id");
         }
         try {
-            List<TaskEntity> taskEntities = taskDAO.getTasks(userId);
+            List<TaskEntity> taskEntities = taskDAO.getTasks(projectId);
             List<TaskView> taskViews = new LinkedList<TaskView>();
             for (TaskEntity taskEntity : taskEntities) {
                 TaskView taskView = Exchanger.exchange(taskEntity);
@@ -83,15 +83,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskView> getTasksByCategory(int userId, int categoryId) throws ServiceException {
-        if (!Validator.isValid(userId)) {
+    public List<TaskView> getTasksByCategory(int projectId, int categoryId) throws ServiceException {
+        if (!Validator.isValid(projectId)) {
             throw new WrongInputServiceException("Incorrect user id");
         }
         if (!Validator.isValid(categoryId)) {
             throw new WrongInputServiceException("Incorrect category id");
         }
         try {
-            List<TaskEntity> taskEntities = taskDAO.getTasksByCategory(userId, categoryId);
+            List<TaskEntity> taskEntities = taskDAO.getTasksByCategory(projectId, categoryId);
             List<TaskView> taskViews = new LinkedList<TaskView>();
             for (TaskEntity taskEntity : taskEntities) {
                 TaskView taskView = Exchanger.exchange(taskEntity);

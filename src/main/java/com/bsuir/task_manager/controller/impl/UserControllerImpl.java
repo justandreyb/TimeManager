@@ -5,11 +5,13 @@ import com.bsuir.task_manager.controller.UserController;
 import com.bsuir.task_manager.controller.exception.ControllerException;
 import com.bsuir.task_manager.controller.exception.WrongInputControllerException;
 import com.bsuir.task_manager.controller.exception.user.UserNotFoundControllerException;
+import com.bsuir.task_manager.security.TokenAuthentication;
 import com.bsuir.task_manager.service.UserService;
 import com.bsuir.task_manager.service.exception.ExistsServiceException;
 import com.bsuir.task_manager.service.exception.ServiceException;
 import com.bsuir.task_manager.service.exception.WrongInputServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +29,10 @@ public class UserControllerImpl implements UserController {
     @Override
     public void updateUser(@PathVariable int userId, @RequestBody UserView user) throws ControllerException {
         try {
+            int currentUserId = getSessionUserId();
+            if (currentUserId != userId) {
+                throw new ControllerException("Forbidden");
+            }
             service.updateUser(userId, user);
         } catch (ExistsServiceException e) {
             throw new UserNotFoundControllerException("User doesn't exists", e);
@@ -40,11 +46,21 @@ public class UserControllerImpl implements UserController {
     @Override
     public void deleteUser(@PathVariable int userId) throws ControllerException {
         try {
+            int currentUserId = getSessionUserId();
+            if (currentUserId != userId) {
+                throw new ControllerException("Forbidden");
+            }
             service.deleteUser(userId);
         } catch (ExistsServiceException e) {
             throw new UserNotFoundControllerException("User doesn't exists", e);
         } catch (ServiceException e) {
             throw new ControllerException("Error while perform logout", e);
         }
+    }
+
+    private int getSessionUserId() {
+        TokenAuthentication tokenAuthentication;
+        tokenAuthentication = (TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+        return ((int)tokenAuthentication.getDetails());
     }
 }

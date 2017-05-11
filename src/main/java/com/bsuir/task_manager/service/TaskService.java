@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface TaskService {
 
-    void createTask(int userId, TaskView task) throws ServiceException;
+    void createTask(int projectId, TaskView task) throws ServiceException;
 
     TaskView getTask(int taskId) throws ServiceException;
-    List<TaskView> getTasks(int userId) throws ServiceException;
-    List<TaskView> getTasksByCategory(int userId, int categoryId) throws ServiceException;
+    List<TaskView> getTasks(int projectId) throws ServiceException;
+    List<TaskView> getTasksByCategory(int projectId, int categoryId) throws ServiceException;
 
     void updateTask(int taskId, TaskView task) throws ServiceException;
 
