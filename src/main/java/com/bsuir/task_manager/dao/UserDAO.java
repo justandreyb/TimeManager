@@ -8,6 +8,7 @@ public interface UserDAO {
     void createUser(UserEntity user) throws DAOException;
 
     UserEntity getUser(String email, String password) throws DAOException;
+    UserEntity getUserByEmail(String email) throws DAOException;
 
     void updateUser(int userId, UserEntity user) throws DAOException;
 

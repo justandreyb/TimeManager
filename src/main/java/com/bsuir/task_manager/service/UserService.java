@@ -8,6 +8,7 @@ public interface UserService {
     void createUser(UserView user) throws ServiceException;
 
     UserView getUser(String email, String password) throws ServiceException;
+    UserView getUserByEmail(String email) throws ServiceException;
 
     void updateUser(int userId, UserView user) throws ServiceException;
 

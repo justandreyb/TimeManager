@@ -2,36 +2,44 @@ package com.bsuir.task_manager.controller;
 
 import com.bsuir.task_manager.bean.view.CategoryView;
 import com.bsuir.task_manager.controller.exception.ControllerException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/user/categories")
+@RequestMapping("/users/{userId}/categories")
 public interface CategoryController {
 
+    @PreAuthorize("hasAuthority('user')")
     @PostMapping("/add")
-    void addCategory(@RequestBody CategoryView category, @RequestParam("userId") int userId) throws ControllerException;
+    void addCategory(@RequestBody CategoryView category, @PathVariable int userId) throws ControllerException;
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/{categoryId}")
     @ResponseBody
-    CategoryView getCategory(@PathVariable int categoryId) throws ControllerException;
+    CategoryView getCategory(@PathVariable int categoryId, @PathVariable int userId) throws ControllerException;
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping
     @ResponseBody
-    List<CategoryView> getCategories(@RequestParam("userId") int userId) throws ControllerException;
+    List<CategoryView> getCategories(@PathVariable int userId) throws ControllerException;
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/default")
     @ResponseBody
     List<CategoryView> getDefaultCategories() throws ControllerException;
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/user")
     @ResponseBody
-    List<CategoryView> getCategoriesByUser(@RequestParam("userId") int userId) throws ControllerException;
+    List<CategoryView> getCategoriesByUser(@PathVariable int userId) throws ControllerException;
 
+    @PreAuthorize("hasAuthority('user')")
     @PostMapping("/{categoryId}/edit")
-    void updateCategory(@PathVariable int categoryId, @RequestBody CategoryView category) throws ControllerException;
+    void updateCategory(@PathVariable int categoryId, @PathVariable int userId, @RequestBody CategoryView category) throws ControllerException;
 
+    @PreAuthorize("hasAuthority('user')")
     @GetMapping("/{categoryId}/delete")
-    void deleteCategory(@PathVariable int categoryId) throws ControllerException;
+    void deleteCategory(@PathVariable int categoryId, @PathVariable int userId) throws ControllerException;
 
 }
