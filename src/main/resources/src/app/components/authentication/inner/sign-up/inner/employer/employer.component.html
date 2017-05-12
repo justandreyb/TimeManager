@@ -1,0 +1,107 @@
+<h2>Sign up as company</h2>
+<div class="container">
+    
+    <div class="container__element col-2-3">
+        <form class="container --column --wrap form" method="post" #form="ngForm">
+
+            <div class="form__inner">
+
+                <div class="form__inner__field">
+                    <h4>Email</h4>
+                    <input 
+                        required 
+                        type="text" 
+                        maxlength="90" 
+                        placeholder="Enter email" 
+                        name="email" 
+                        [(ngModel)]="account.email"
+                    >
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Nickname</h4>
+                    <input 
+                        required 
+                        type="text" 
+                        maxlength="45" 
+                        placeholder="Enter nickname" 
+                        name="nickName" 
+                        [(ngModel)]="account.nickname"
+                    >
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Password</h4>
+                    <input 
+                        required 
+                        type="password" 
+                        maxlength="90" 
+                        placeholder="Enter Password" 
+                        name="pass" 
+                        [(ngModel)]="account.password"
+                    >
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Repeat password</h4>
+                    <input 
+                        required 
+                        type="password" 
+                        maxlength="90" 
+                        placeholder="Repeat Password" 
+                        name="repPass" 
+                        [(ngModel)]="rePass"
+                    >
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Name</h4>
+                    <input 
+                        required 
+                        type="text" 
+                        maxlength="90" 
+                        placeholder="Enter name" 
+                        name="name" 
+                        [(ngModel)]="account.name"
+                    >
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Description</h4>
+                    <textarea 
+                        required
+                        type="text" 
+                        maxlength="45" 
+                        name="description" 
+                        [(ngModel)]="account.description"
+                    >
+                    </textarea>
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Address</h4>
+                    <input 
+                        required 
+                        type="text" 
+                        maxlength="225" 
+                        placeholder="Enter address" 
+                        name="address" 
+                        [(ngModel)]="account.address"
+                    >
+                </div>
+
+                <div class="form__inner__buttons container">
+                    <div class="container__element col-1-2">
+                        <button [disabled]="!form.valid" (click)="signUp()"><a>Sign up</a></button>
+                    </div>
+                    <div class="container__element col-1-2">
+                        <button>
+                            <a routerLink='/accounts/registration/main'>Cancel</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
