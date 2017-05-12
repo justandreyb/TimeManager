@@ -1,0 +1,59 @@
+<h2>Sign in as user</h2>
+<div class="container">
+    
+    <div class="container__element col-2-3">
+        <form class="container --column --wrap form" method="post" #form="ngForm">
+
+            <div class="form__inner">
+
+                <div class="form__inner__field">
+                    <h4>Email</h4>
+                    <input 
+                        required
+                        type="text" 
+                        maxlength="90" 
+                        placeholder="Enter email" 
+                        name="email" 
+                        [(ngModel)]="account.email"
+                    >
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Password</h4>
+                    <input 
+                        required 
+                        type="password" 
+                        maxlength="90" 
+                        placeholder="Enter Password" 
+                        name="pass" 
+                        [(ngModel)]="account.password"
+                    >
+                </div>
+                
+                <div class="form__inner__field">
+                    <h4>Repeat password</h4>
+                    <input 
+                        required 
+                        type="password" 
+                        maxlength="90" 
+                        placeholder="Repeat Password" 
+                        name="repPass" 
+                        [(ngModel)]="rePass"
+                    >
+                </div>
+
+                <div class="form__inner__buttons container">
+                    <div class="container__element col-1-2">
+                        <button [disabled]="!form.valid" (click)="signIn()"><a>Sign in</a></button>
+                    </div>
+                    <div class="container__element col-1-2">
+                        <button>
+                            <a routerLink='/accounts/login/main'>Cancel</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
