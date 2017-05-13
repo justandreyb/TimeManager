@@ -25,6 +25,8 @@
         <mysql.version>6.0.6</mysql.version>
         <c3p0-pool.version>0.9.5.2</c3p0-pool.version>
 
+        <junit.version>4.11</junit.version>
+        <mockito.version>2.7.22</mockito.version>
         <log4j.version>1.2.17</log4j.version>
     </properties>
 
@@ -129,6 +131,19 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
         </dependency>
 
         <!-- Logging -->

@@ -7,7 +7,7 @@ import com.bsuir.task_manager.controller.exception.WrongInputControllerException
 import com.bsuir.task_manager.controller.exception.project.ProjectExistsControllerException;
 import com.bsuir.task_manager.controller.exception.project.ProjectNotFoundControllerException;
 import com.bsuir.task_manager.security.TokenAuthentication;
-import com.bsuir.task_manager.service.ProjectsService;
+import com.bsuir.task_manager.service.ProjectService;
 import com.bsuir.task_manager.service.exception.ExistsServiceException;
 import com.bsuir.task_manager.service.exception.NotFoundServiceException;
 import com.bsuir.task_manager.service.exception.ServiceException;
@@ -23,11 +23,11 @@ import java.util.List;
 @Controller
 public class ProjectControllerImpl implements ProjectController {
 
-    private ProjectsService projectsService;
+    private ProjectService projectService;
 
     @Autowired
-    public ProjectControllerImpl(ProjectsService projectsService) {
-        this.projectsService = projectsService;
+    public ProjectControllerImpl(ProjectService projectService) {
+        this.projectService = projectService;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ProjectControllerImpl implements ProjectController {
             if (currentUserId != userId) {
                 throw new ControllerException("Forbidden");
             }
-            projectsService.createProject(userId, project);
+            projectService.createProject(userId, project);
         } catch (ExistsServiceException e) {
             throw new ProjectExistsControllerException("Project already exists", e);
         } catch (WrongInputServiceException e) {
@@ -54,7 +54,7 @@ public class ProjectControllerImpl implements ProjectController {
             if (currentUserId != userId) {
                 throw new ControllerException("Forbidden");
             }
-            return projectsService.getProject(projectId);
+            return projectService.getProject(projectId);
         } catch (NotFoundServiceException e) {
             throw new ProjectNotFoundControllerException("Project doesn't exists", e);
         } catch (WrongInputServiceException e) {
@@ -71,7 +71,7 @@ public class ProjectControllerImpl implements ProjectController {
             if (currentUserId != userId) {
                 throw new ControllerException("Forbidden");
             }
-            return projectsService.getProjectsByUser(userId);
+            return projectService.getProjectsByUser(userId);
         } catch (WrongInputServiceException e) {
             throw new WrongInputControllerException("Input fields are incorrect", e);
         } catch (ServiceException e) {
@@ -86,7 +86,7 @@ public class ProjectControllerImpl implements ProjectController {
             if (currentUserId != userId) {
                 throw new ControllerException("Forbidden");
             }
-            projectsService.updateProject(projectId, project);
+            projectService.updateProject(projectId, project);
         } catch (NotFoundServiceException e) {
             throw new ProjectNotFoundControllerException("Project doesn't exists", e);
         } catch (WrongInputServiceException e) {
@@ -103,7 +103,7 @@ public class ProjectControllerImpl implements ProjectController {
             if (currentUserId != userId) {
                 throw new ControllerException("Forbidden");
             }
-            projectsService.deleteProject(projectId);
+            projectService.deleteProject(projectId);
         } catch (NotFoundServiceException e) {
             throw new ProjectNotFoundControllerException("Project doesn't exists", e);
         } catch (WrongInputServiceException e) {

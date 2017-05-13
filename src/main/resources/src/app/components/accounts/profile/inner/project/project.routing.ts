@@ -1,34 +1,37 @@
 import { ModuleWithProviders } from '@angular/core/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ResumeComponent } from "./resume.component";
-import { ResumeEditComponent } from "./inner/edit/edit-resume.component";
-import { ResumesUserComponent } from "./inner/user/resume-user.component";
-import { ResumeCreateComponent } from "./inner/create/create-resume.component";
+import { ProjectComponent } from './project.component';
+import { ProjectEditComponent } from './inner/edit/edit-project.component';
+import { ProjectCreateComponent } from './inner/create/create-project.component';
+import { ProjectsComponent } from './inner/list/list-project.component';
+import { ProjectInfoComponent } from "./inner/information/project.information.component";
 
-export const resumeRoutes : Routes = [
+
+export const projectRoutes : Routes = [
     {
         path: '',
+        component: ProjectComponent,
         children: [
             {
                 path: '',
                 pathMatch: 'full',
-                component: ResumesUserComponent
+                component: ProjectsComponent
             },
             {
                 path: 'create',
-                component: ResumeCreateComponent
+                component: ProjectCreateComponent
             },
             {
-                path: ':resumeId',
-                component: ResumeComponent
+                path: ':projectId',
+                component: ProjectInfoComponent
             },
             {
-                path: ':resumeId/edit',
-                component: ResumeEditComponent
+                path: ':projectId/edit',
+                component: ProjectEditComponent
             }
         ]
     },
 ];
 
-export const resumeRouting: ModuleWithProviders = RouterModule.forRoot(resumeRoutes);
+export const projectRouting: ModuleWithProviders = RouterModule.forRoot(projectRoutes);

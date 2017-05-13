@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/Rx';
-
 import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
 
-import { UserService } from '../../../../../../../services/UserService';
-import { HTTPService } from "../../../../../../../services/HTTPService";
+import { Task } from "../../../../../../../../../model/Task";
 
-import { Project } from "../../../../../../../model/Project";
+import { HTTPService } from "../../../../../../../../../services/HTTPService";
+import { UserService } from "../../../../../../../../../services/UserService";
+
 
 @Component({
-    selector: 'profile__projects__project__create',
-    templateUrl: 'src/app/components/accounts/profile/inner/project/inner/create/create-project.component.html',
+    selector: 'profile__projects__tasks__task__create',
+    templateUrl: 'src/app/components/accounts/profile/inner/project/inner/task/inner/create/task.create.component.html',
     styleUrls: [
         'src/app/assets/grid.css',
         'src/app/assets/form.css',
@@ -21,7 +20,7 @@ import { Project } from "../../../../../../../model/Project";
 
 export class ProjectCreateComponent {
     
-    private project = new Project();
+    private task = new Task();
 
     // Mb just static var
     private currentDate = this.getCurrentDate();
@@ -38,7 +37,7 @@ export class ProjectCreateComponent {
 
     private sendRequest() {
         if (this.userService.isAuth()){
-            this.httpService.sendData("/users/" + this.userService.getUserId + "/projects/create", Project.serialize(this.project))
+            this.httpService.sendData("/add/resume", this.task)
                 .catch((error) => {
                     alert("Something went wrong. Try again later. Error: " + error);
                     return null;

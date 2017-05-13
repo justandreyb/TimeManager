@@ -5,7 +5,7 @@ import { ProfileComponent } from "./profile.component";
 import { ProfileInfoComponent } from "./inner/information/profile-information.component";
 import { ProfileEditComponent } from "./inner/edit/edit-profile.component";
 
-import { resumeRoutes } from "./inner/resume/resume.routing";
+import { projectRoutes } from './inner/project/project.routing';
 
 export const profileRoutes : Routes = [
     {
@@ -21,11 +21,12 @@ export const profileRoutes : Routes = [
                 component: ProfileEditComponent
             },
             {
-                path: ':profileId/resumes',
-                children: [...resumeRoutes]
+                path: ':profileId/projects',
+                children: [...projectRoutes]
             }
         ]
     }
 ];
 
 export const profileRouting: ModuleWithProviders = RouterModule.forRoot(profileRoutes);
+

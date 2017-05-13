@@ -1,22 +1,18 @@
 <nav class="navigation">
     <div id="menu" class="navigation__inner">
         <a class="navigation__inner__logo" href="/welcome">
-            <img src="src/app/assets/img/brand.png" class="navigation__inner__logo__icon" id="store-icon" alt="HK" height="30" width="30"  />
+            <img src="src/app/assets/img/brand-white.png" class="navigation__inner__logo__icon" id="store-icon" alt="TM" height="30" width="30"  />
         </a>
         <a class="navigation__inner__menu --show" href="#menu">Menu</a><a class="navigation__inner__menu --hide" href="#hidemenu">Menu</a>
         <ul class="navigation__inner__menu__buttons">
             <li><a routerLink="/welcome" routerLinkActive="disabled">Home</a></li>
             <li><a routerLink="/help" routerLinkActive="disabled">Help</a></li>
            
-            <li *ngIf="!userService.isAuth()"><a routerLink="/accounts/main" routerLinkActive="disabled">Account</a></li>
+            <li *ngIf="!userService.isAuth()"><a routerLink="/auth/main" routerLinkActive="disabled">Account</a></li>
 
             <li routerLink="/profiles/{{userService.getUserId()}}/information" *ngIf="userService.isAuth() && userService.isUser()">
                 <a>{{userService.getUserNick()}}</a>
             </li> 
-            
-            <li routerLink="/companies/{{userService.getUserId()}}/information" *ngIf="userService.isAuth() && userService.isCompany() ">
-                <a>{{userService.getUserNick()}}</a>
-            </li>
             
             <li (click)="logOut()" *ngIf="userService.isAuth()"><a routerLink="/welcome">Sign out</a></li>
             <li *ngIf="userService.isAdmin()">You are admin</li>

@@ -1,7 +1,9 @@
 import { Router } from '@angular/router';
-import { UserAccount } from '../../../../../beans/account/UserAccount';
 import { HTTPService } from '../../../../../services/HTTPService';
 import { Component, OnInit } from '@angular/core';
+
+import { User } from '../../../../../model/User';
+
 import { UserService } from "../../../../../services/UserService";
 
 @Component({
@@ -18,7 +20,7 @@ export class ProfileEditComponent implements OnInit {
     
     private pass: string;
 
-    private account = new UserAccount();
+    private account = new User();
 
     private servResponse: any;
 

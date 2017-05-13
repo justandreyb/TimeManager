@@ -2,13 +2,14 @@ import 'rxjs/Rx';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Project } from "../../../../../../../model/Project";
+import { Task } from '../../../../../../../../../model/Task';
 
-import { HTTPService } from "../../../../../../../services/HTTPService";
-import { UserService } from "../../../../../../../services/UserService";
+import { HTTPService } from "../../../../../../../../../services/HTTPService";
+import { UserService } from "../../../../../../../../../services/UserService";
+
 
 @Component({
-    selector: 'profile__projects__project__edit',
+    selector: 'profile__projects__tasks__task__edit',
     templateUrl: 'src/app/components/accounts/profile/inner/project/inner/edit/edit-project.component.html',
     styleUrls: [
         'src/app/assets/grid.css',
@@ -17,13 +18,14 @@ import { UserService } from "../../../../../../../services/UserService";
     ]
 })
 
-export class ProjectEditComponent implements OnInit, OnDestroy {
+export class TaskEditComponent implements OnInit, OnDestroy {
 
     private id: number;
     private userId: number;
+    private projectId: number;
 
     private sub: any;
-    private project: Project;
+    private task: Task;
 
     constructor(
         private httpService: HTTPService,
@@ -33,12 +35,13 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-            this.id = +params['projectId']; 
+        this.sub = this.route.params.subscribe(params => {
+            this.id = +params['taskId']; 
             this.userId = +params['userId']; 
+            this.projectId = +params['projectId']; 
             
-            this.loadProject(this.userId, this.id);
-        });
+            this.loadTask(this.userId, this.projectId, this.id);
+            });
     }
 
     ngOnDestroy() {
@@ -51,27 +54,27 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
     private sendRequest() {
         if (this.userId == this.userService.getUserId()) {
-            this.httpService.sendData("/users/" + this.userId + "/projects/" + this.id + "/edit", Project.serialize(this.project))
-                .catch((error) => {
-                    alert("Something went wrong. Try again later. Error: " + error);
-                    return null;
-                })
-                .subscribe(() => {});
+        this.httpService.sendData("/users/" + this.userService.getUserId() + "/projects/" + this.id + "/edit", Task.serialize(this.task))
+            .catch((error) => {
+                alert("Something went wrong. Try again later. Error: " + error);
+                return null;
+            })
+            .subscribe(() => {});
         } else {
-            alert("Forbidden. It's project not by user with nickname " + this.userService.getUserNick());
+            alert("Forbidden. It's task not by user with nickname " + this.userService.getUserNick());
         }
     }
 
-    private loadProject(userId: number, id: number) {
+    private loadTask(userId: number, projectId: number, id: number) {
         if (this.userService.getUserId() == userId) { 
-            this.httpService.getData("/users/" + userId + "/projects/" + id)
+            this.httpService.getData("/users/" + userId + "/projects/" + projectId + "/tasks/" + id)
                 .catch((error) => {
                     alert("Something went wrong");
                     return null;
                 })
                 .subscribe((response) => {
-                    this.project = Project.deserialize(response);
-                    this.project.id = this.id;
+                    this.task = Task.deserialize(response);
+                    this.task.id = this.id;
                     return null;
                 });
         } else {

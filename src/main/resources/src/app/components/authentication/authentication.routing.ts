@@ -4,12 +4,12 @@ import { Routes, RouterModule } from '@angular/router'
 import { AuthenticationComponent } from "./authentication.component";
 import { AuthenticationMainComponent } from "./inner/main/authentication-main.component";
 
-import { signUpRoutes } from './inner/sign-up/sign-up.routing';
-import { signInRoutes } from "./inner/sign-in/sign-in.routing";
+import { SignInComponent } from './inner/sign-in/sign-in.component';
+import { SignUpComponent } from "./inner/sign-up/sign-up.component";
 
 export const authenticationRoutes : Routes = [
     {
-        path: 'accounts',
+        path: 'auth',
         component: AuthenticationComponent,
         children: [
             {
@@ -23,11 +23,11 @@ export const authenticationRoutes : Routes = [
             },
             {
                 path: 'login',
-                children: [...signInRoutes]
+                component: SignInComponent
             },
             {
                 path: 'registration',
-                children: [...signUpRoutes]
+                component: SignUpComponent
             }
         ]
     }

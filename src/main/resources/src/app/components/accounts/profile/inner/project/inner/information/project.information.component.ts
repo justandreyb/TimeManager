@@ -9,7 +9,7 @@ import { UserService } from "../../../../../../../services/UserService";
 
 @Component({
     selector: 'profile__projects__project__edit',
-    templateUrl: 'src/app/components/accounts/profile/inner/project/inner/edit/edit-project.component.html',
+    templateUrl: 'src/app/components/accounts/profile/inner/project/inner/information/project.information.component.html',
     styleUrls: [
         'src/app/assets/grid.css',
         'src/app/assets/form.css',
@@ -17,7 +17,7 @@ import { UserService } from "../../../../../../../services/UserService";
     ]
 })
 
-export class ProjectEditComponent implements OnInit, OnDestroy {
+export class ProjectInfoComponent implements OnInit, OnDestroy {
 
     private id: number;
     private userId: number;
@@ -43,23 +43,6 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.sub.unsubscribe();
-    }
-
-    public editResume() {
-        this.sendRequest();
-    }
-
-    private sendRequest() {
-        if (this.userId == this.userService.getUserId()) {
-            this.httpService.sendData("/users/" + this.userId + "/projects/" + this.id + "/edit", Project.serialize(this.project))
-                .catch((error) => {
-                    alert("Something went wrong. Try again later. Error: " + error);
-                    return null;
-                })
-                .subscribe(() => {});
-        } else {
-            alert("Forbidden. It's project not by user with nickname " + this.userService.getUserNick());
-        }
     }
 
     private loadProject(userId: number, id: number) {

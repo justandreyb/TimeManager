@@ -1,10 +1,10 @@
-<div class="container --no-margin" *ngIf="userService.isAuth() && userService.isUser()">
+<div class="container --no-margin" *ngIf="userService.isAuth()">
     <div class="container__element col-2-3 --no-height-margin">
         <div class="container panel --no-height-padding --color-white text-center">
-            <a class="container__element panel__button --no-height-padding col-1-4" routerLink='/profiles/{{userService.getUserId()}}/info' routerLinkActive="disabled">Info</a>
+            <a class="container__element panel__button --no-height-padding col-1-4" routerLink='/profiles/{{userService.getUserId()}}' routerLinkActive="disabled">Info</a>
             <a class="container__element panel__button --no-height-padding col-1-4" routerLink='/profiles/{{userService.getUserId()}}/edit' routerLinkActive="disabled">Edit</a>
-            <a class="container__element panel__button --no-height-padding col-1-4" routerLink='/profiles/{{userService.getUserId()}}/resumes' routerLinkActive="disabled">Resumes</a>
-            <a class="container__element panel__button --no-height-padding col-1-4" routerLink='/profiles/{{userService.getUserId()}}/resumes/create' routerLinkActive="disabled">Create resume</a>
+            <a class="container__element panel__button --no-height-padding col-1-4" routerLink='/profiles/{{userService.getUserId()}}/resumes' routerLinkActive="disabled">Projects</a>
+            <a class="container__element panel__button --no-height-padding col-1-4" routerLink='/profiles/{{userService.getUserId()}}/resumes/create' routerLinkActive="disabled">Create project</a>
         </div>
     </div>
 </div>

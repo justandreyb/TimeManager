@@ -1,9 +1,10 @@
+import 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { HTTPService } from '../../../../../services/HTTPService';
-import { UserAccount } from '../../../../../beans/account/UserAccount';
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/Rx';
+
+import { User } from "../../../../../model/User";
+
 import { UserService } from "../../../../../services/UserService";
 
 @Component({
@@ -18,7 +19,7 @@ import { UserService } from "../../../../../services/UserService";
 
 export class ProfileInfoComponent implements OnInit {
     
-    private account = new UserAccount();
+    private account = new User();
 
     constructor(
         private httpService: HTTPService,

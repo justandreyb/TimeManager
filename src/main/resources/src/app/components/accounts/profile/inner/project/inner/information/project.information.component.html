@@ -1,4 +1,4 @@
-<h2>Update project</h2>
+<h2>Information about {{project.name}}</h2>
 <div class="container">
     
     <div class="container__element col-2-3">
@@ -9,7 +9,7 @@
                 <div class="form__inner__field">
                     <h4>Name</h4>
                     <input 
-                        required 
+                        disabled
                         type="text" 
                         maxlength="90" 
                         placeholder="Enter name" 
@@ -22,6 +22,7 @@
                     <h4>Deadline</h4>
                     <input 
                         type="date"
+                        disabled
                         min="{{project.creationDate}}"
                         max="2030-01-02"
                         placeholder="Enter new deadline" 
@@ -32,7 +33,7 @@
 
                 <div class="form__inner__field">
                     <h4>Importance</h4>
-                    <select required [(ngModel)]="project.importance">
+                    <select disabled [(ngModel)]="project.importance">
                         <option value="25">Low</option>
                         <option value="50">Normal</option>
                         <option value="75">Important</option>
@@ -42,7 +43,7 @@
 
                 <div class="form__inner__field">
                     <h4>State</h4>
-                    <select required [(ngModel)]="project.finished">
+                    <select disabled [(ngModel)]="project.finished">
                         <option value="0">In process</option>
                         <option value="1">Finished</option>
                     </select>
@@ -50,11 +51,8 @@
 
                 <div class="form__inner__buttons container">
                     <div class="container__element col-1-2">
-                        <button [disabled]="!form.valid" (click)="updateProject()"><a>Upadte</a></button>
-                    </div>
-                    <div class="container__element col-1-2">
                         <button>
-                            <a routerLink='../'>Cancel</a>
+                            <a routerLink='../'>Back</a>
                         </button>
                     </div>
                 </div>

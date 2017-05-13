@@ -6,7 +6,7 @@ import com.bsuir.task_manager.dao.ProjectDAO;
 import com.bsuir.task_manager.dao.exception.DAOException;
 import com.bsuir.task_manager.dao.exception.ExistsDAOException;
 import com.bsuir.task_manager.dao.exception.NotFoundDAOException;
-import com.bsuir.task_manager.service.ProjectsService;
+import com.bsuir.task_manager.service.ProjectService;
 import com.bsuir.task_manager.service.exception.ExistsServiceException;
 import com.bsuir.task_manager.service.exception.NotFoundServiceException;
 import com.bsuir.task_manager.service.exception.ServiceException;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ProjectServiceImpl implements ProjectsService {
+public class ProjectServiceImpl implements ProjectService {
 
     private ProjectDAO projectDAO;
 

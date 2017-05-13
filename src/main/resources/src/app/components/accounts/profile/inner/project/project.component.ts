@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/Rx';
+import { Http } from '@angular/http';
+import { Component } from '@angular/core';
+
+import { UserService } from "../../../../../services/UserService";
 
 @Component({
-    selector: 'profile__resumes',
-    templateUrl: 'src/app/components/accounts/profile/inner/project/project.component.html',
-    styleUrls: ['src/app/components/accounts/profile/inner/project/project.component.css']
+    selector: 'profile__projects',
+    templateUrl: 'src/app/components/accounts/profile/inner/project/project.component.html'
 })
 
 export class ProjectComponent {
+    constructor (
+        private userService: UserService
+    ) { }
 }
