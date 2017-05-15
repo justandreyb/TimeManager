@@ -36,11 +36,11 @@ export class TaskEditComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
-            this.id = +params['taskId']; 
-            this.userId = +params['userId']; 
-            this.projectId = +params['projectId']; 
-            
-            this.loadTask(this.userId, this.projectId, this.id);
+                this.id = +params['taskId']; 
+                this.userId = +params['userId']; 
+                this.projectId = +params['projectId']; 
+                
+                this.loadTask(this.userId, this.projectId, this.id);
             });
     }
 
@@ -54,12 +54,14 @@ export class TaskEditComponent implements OnInit, OnDestroy {
 
     private sendRequest() {
         if (this.userId == this.userService.getUserId()) {
-        this.httpService.sendData("/users/" + this.userService.getUserId() + "/projects/" + this.id + "/edit", Task.serialize(this.task))
+        this.httpService.sendData("/users/" + this.userId + "/projects/" + this.id + "/edit", Task.serialize(this.task))
             .catch((error) => {
-                alert("Something went wrong. Try again later. Error: " + error);
+                alert("Something went wrong while editing task. Error: " + error);
                 return null;
             })
-            .subscribe(() => {});
+            .subscribe(() => {
+                this.router.navigate(["../"]);
+            });
         } else {
             alert("Forbidden. It's task not by user with nickname " + this.userService.getUserNick());
         }
@@ -69,7 +71,7 @@ export class TaskEditComponent implements OnInit, OnDestroy {
         if (this.userService.getUserId() == userId) { 
             this.httpService.getData("/users/" + userId + "/projects/" + projectId + "/tasks/" + id)
                 .catch((error) => {
-                    alert("Something went wrong");
+                    alert("Something went wrong while getting task. Error: " + error);
                     return null;
                 })
                 .subscribe((response) => {

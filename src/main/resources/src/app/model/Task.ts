@@ -44,7 +44,7 @@ export class Task {
         res._finished = input.finished;
         res._complexity = input.complexety;
         res._urgency = input.urgency;
-        res._category = Category.deserialize(input._category);
+        res._category = Category.deserialize(input.category);
         
         return res;
     }

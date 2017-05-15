@@ -5,23 +5,56 @@ import com.bsuir.task_manager.bean.view.*;
 public class Validator {
 
     public static boolean isValid(UserView user) {
-        return false;
+        if (user.getEmail() == null || "".equals(user.getEmail())) {
+            return false;
+        }
+        if (user.getPassword() == null || "".equals(user.getPassword())) {
+            return false;
+        }
+        if (user.getNickname() == null || "".equals(user.getNickname())) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean isValid(TaskView task) {
-        return false;
+        if (task.getName() == null || "".equals(task.getName())) {
+            return false;
+        }
+        if (task.getImportance() < 25 || task.getImportance() > 100) {
+            return false;
+        }
+        if (task.getComplexity() < 25 || task.getComplexity() > 100) {
+            return false;
+        }
+        if (task.getUrgency() < 25 || task.getUrgency() > 100) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean isValid(CategoryView category) {
-        return false;
+        if (category.getName() == null || "".equals(category.getName())) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean isValid(RoleView role) {
-        return false;
+        if (role.getValue() == null || "".equals(role.getValue())) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean isValid(ProjectView project) {
-        return false;
+        if (project.getName() == null || "".equals(project.getName())) {
+            return false;
+        }
+        if (project.getImportance() < 0 || project.getImportance() > 100) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean isValid(int id) {

@@ -13,6 +13,7 @@ import com.bsuir.task_manager.service.exception.ServiceException;
 import com.bsuir.task_manager.service.exception.WrongInputServiceException;
 import com.bsuir.task_manager.service.util.Exchanger;
 import com.bsuir.task_manager.service.util.Validator;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,8 @@ public class UserServiceImpl implements UserService {
             throw new ExistsServiceException("User already exists", e);
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while adding user", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 
@@ -62,6 +65,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserView getUserById(int userId) throws ServiceException {
+        if (!Validator.isValid(userId)) {
+            throw new WrongInputServiceException("Incorrect user id");
+        }
+        try {
+            UserEntity userEntity = userDAO.getUserById(userId);
+            return Exchanger.exchange(userEntity);
+        } catch (NotFoundDAOException e) {
+            throw new NotFoundServiceException("User doesn't exists", e);
+        } catch (DAOException e) {
+            throw new ServiceException("Something went wrong while getting user", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
+        }
+    }
+
+    @Override
     public UserView getUserByEmail(String email) throws ServiceException {
         if (!Validator.isValidEmail(email)) {
             throw new WrongInputServiceException("Incorrect email");
@@ -73,6 +93,8 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundServiceException("User doesn't exists", e);
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while getting user", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 
@@ -91,6 +113,8 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundServiceException("User doesn't exists", e);
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while updating user", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 
@@ -105,6 +129,8 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundServiceException("User doesn't exists", e);
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while deleting user", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 }

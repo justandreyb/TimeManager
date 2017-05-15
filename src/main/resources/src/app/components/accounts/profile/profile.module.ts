@@ -3,6 +3,8 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { ProjectModule } from "./inner/project/project.module";
+
 import { ProfileComponent } from './profile.component';
 import { ProfileInfoComponent } from './inner/information/profile-information.component';
 import { ProfileEditComponent } from './inner/edit/edit-profile.component';
@@ -16,6 +18,8 @@ import { profileRouting } from "./profile.routing";
         BrowserModule,
         FormsModule,
         HttpModule,
+
+        ProjectModule,
 
         profileRouting
     ],

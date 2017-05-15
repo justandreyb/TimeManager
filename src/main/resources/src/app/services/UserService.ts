@@ -38,15 +38,7 @@ export class UserService {
     public isUser(): boolean {
         var token = this.httpService.getToken();
         if(token != "") {
-            return this.decodeToken(token)["IS_USER"];
-        }
-        return false;
-    }
-
-    public isCompany(): boolean {
-        var token = this.httpService.getToken();
-        if(token != "") {
-            return this.decodeToken(token)["IS_COMPANY"];
+            return !this.decodeToken(token)["IS_ADMIN"];
         }
         return false;
     }

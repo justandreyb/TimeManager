@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProjectController {
 
     @PreAuthorize("hasAuthority('user')")
-    @PostMapping("/add")
+    @PostMapping("/create")
     void addProject(@RequestBody ProjectView project, @PathVariable int userId) throws ControllerException;
 
     @PreAuthorize("hasAuthority('user')")

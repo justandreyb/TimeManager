@@ -13,6 +13,7 @@ import com.bsuir.task_manager.service.exception.ServiceException;
 import com.bsuir.task_manager.service.exception.WrongInputServiceException;
 import com.bsuir.task_manager.service.util.Exchanger;
 import com.bsuir.task_manager.service.util.Validator;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +47,8 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ExistsServiceException("Project already exists", e);
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while creating project", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 
@@ -61,6 +64,8 @@ public class ProjectServiceImpl implements ProjectService {
             throw new NotFoundServiceException("Project doesn't exists", e);
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while getting project", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 
@@ -80,6 +85,8 @@ public class ProjectServiceImpl implements ProjectService {
             return projectViews;
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while getting projects", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 
@@ -98,6 +105,8 @@ public class ProjectServiceImpl implements ProjectService {
             throw new NotFoundServiceException("Project doesn't exists", e);
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while getting project", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 
@@ -112,6 +121,8 @@ public class ProjectServiceImpl implements ProjectService {
             throw new NotFoundServiceException("Project doesn't exists", e);
         } catch (DAOException e) {
             throw new ServiceException("Something went wrong while getting project", e);
+        } catch (HibernateException e) {
+            throw new ServiceException("Storage exception", e);
         }
     }
 }

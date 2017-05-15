@@ -2,18 +2,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { TokenService } from "./TokenService";
 import { Http, Headers } from '@angular/http';
+import { LocationStrategy } from "@angular/common";
 
 import 'rxjs/add/operator/map';
+
 import { CookiesService } from "./CookiesService";
 
 @Injectable()
 export class HTTPService {
-    constructor(private http: Http) {
+    constructor(
+        private http: Http,
+    ) {
 
     }
 
     public getData(url: string) {
         let headers = this.getHeaders();
+        // url = "http://127.0.0.1:8095/" + url; 
         return this
             .http
             .get(url, { headers: headers })
@@ -30,7 +35,6 @@ export class HTTPService {
 
     public sendData(url: string,  data: any) {
         let headers = this.getSendHeaders();
-        alert("Data: " + JSON.stringify(data));
         return this
             .http
             .post(url, JSON.stringify(data), { headers: headers })

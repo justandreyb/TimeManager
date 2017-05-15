@@ -41,7 +41,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
             List<GrantedAuthority> authorities = getUserRoles(user);
             return new SecurityUser(user.getEmail(), user.getPassword(), user.getNickname(), user.getId(),
-                    user.isDeleted(), true, true, true,
+                    !user.isDeleted(), true, true, true,
                     authorities);
         } catch (NotFoundServiceException e) {
             throw new UsernameNotFoundException(e.getMessage());

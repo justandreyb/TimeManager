@@ -132,6 +132,7 @@ public class TaskControllerImpl implements TaskController {
     private int getSessionUserId() {
         TokenAuthentication tokenAuthentication;
         tokenAuthentication = (TokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
-        return ((int)tokenAuthentication.getDetails());
+        Long userIdLong = (Long) tokenAuthentication.getDetails();
+        return userIdLong.intValue();
     }
 }

@@ -74,10 +74,10 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException(STORAGE_EXCEPTION);
         }
 
-        UserEntity existsUser = getUserFromStorage(session, user.getEmail(), user.getPassword());
+        /*UserEntity existsUser = getUserFromStorage(session, user.getEmail(), user.getPassword());
         if (existsUser != null) {
             throw new ExistsDAOException("User already exists");
-        }
+        }*/
 
         RoleEntity role = session.load(RoleEntity.class, USER_ROLE);
         user.setRole(role);
@@ -93,6 +93,21 @@ public class UserDAOImpl implements UserDAO {
         }
 
         user = getUserFromStorage(session, email, password);
+        if (user == null) {
+            throw new NotFoundDAOException("User not found");
+        }
+        return user;
+    }
+
+    @Override
+    public UserEntity getUserById(int userId) throws DAOException {
+        UserEntity user;
+        Session session = sessionFactory.getCurrentSession();
+        if (session == null) {
+            throw new DAOException(STORAGE_EXCEPTION);
+        }
+
+        user = session.load(UserEntity.class, userId);
         if (user == null) {
             throw new NotFoundDAOException("User not found");
         }

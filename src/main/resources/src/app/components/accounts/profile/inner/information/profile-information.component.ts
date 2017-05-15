@@ -27,24 +27,22 @@ export class ProfileInfoComponent implements OnInit {
         private router: Router    
     ) { }
 
-    public deleteUser() {
-
-    }
-
     private loadAccount() {
         if (this.userService.getUserId() != null) { 
-            this.httpService.getData("/profile/" + this.userService.getUserId())
+            let path = "/users/" + this.userService.getUserId();
+            alert(path);
+            this.httpService.getData("/users/" + this.userService.getUserId())
                 .catch((error) => {
-                    alert("Something went wrong");
+                    alert("Something went wrong !!! Error: " + error);
                     return null;
                 })
                 .subscribe((response) => {
-                    this.account = response;
+                    this.account = User.deserialize(response);
                     return null;
                 });
         } else {
             alert("You are not logged in.");
-            this.router.navigate(["/accounts/login/user"]);
+            this.router.navigate(["/auth/login"]);
         }
     }
 

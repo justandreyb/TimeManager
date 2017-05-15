@@ -1,6 +1,6 @@
 import 'rxjs/Rx';
-import { Router } from "@angular/router";
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
 
 import { Task } from "../../../../../../../../../model/Task";
 
@@ -18,29 +18,47 @@ import { UserService } from "../../../../../../../../../services/UserService";
     ]
 })
 
-export class ProjectCreateComponent {
+export class TaskCreateComponent {
     
     private task = new Task();
+    private userId: number;
+    private projectId: number;
 
+    private sub: any;
     // Mb just static var
     private currentDate = this.getCurrentDate();
 
     constructor(
         private httpService: HTTPService,
         private userService: UserService, 
+        private route: ActivatedRoute,
         private router: Router
     ) { }
 
-    public createProject() {
+    ngOnInit() {
+        this.sub = this.route.params.subscribe(params => {
+                this.userId = +params['userId']; 
+                this.projectId = +params['projectId']; 
+            });
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
+
+    public createTask() {
         this.sendRequest();
     }
 
     private sendRequest() {
         if (this.userService.isAuth()){
-            this.httpService.sendData("/add/resume", this.task)
+            this.httpService.sendData("users/" + this.userService.getUserId() + "/projects/" + this.projectId + "/tasks/create", Task.serialize(this.task))
                 .catch((error) => {
-                    alert("Something went wrong. Try again later. Error: " + error);
+                    alert("Something went wrong while creating task. Error: " + error);
                     return null;
+                })
+                .subscribe(() => {
+                    this.router.navigate(["../"]);
                 });
         } else {
             alert("You are not logged in");
@@ -53,6 +71,21 @@ export class ProjectCreateComponent {
         var mm = today.getMonth() + 1;
         var yyyy = today.getFullYear();
 
-        return yyyy + '/' + mm + '/' + dd;
+        let final = yyyy.toString();
+        if (mm < 10) {
+            final = final + "-0";
+        } else {
+            final = final + "-";
+        }
+        final = final + mm.toString();
+
+        if (dd < 10) {
+            final = final + "-0";
+        } else {
+            final = final + "-";
+        }
+        final = final + dd.toString();
+
+        return final;
     }
 }

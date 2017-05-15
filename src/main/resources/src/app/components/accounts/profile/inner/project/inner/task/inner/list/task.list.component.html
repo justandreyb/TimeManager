@@ -1,0 +1,16 @@
+<h2>Tasks in project by {{userService.getUserNick()}}</h2>
+<div class="container">
+    
+    <div class="container__element col-2-3">
+        <div class="container --column --wrap">
+
+            <ul>
+                <li *ngFor="let task of tasks">
+                    {{ task.name }}
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+</div>

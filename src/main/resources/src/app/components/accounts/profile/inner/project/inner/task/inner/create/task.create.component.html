@@ -14,22 +14,54 @@
                         maxlength="90" 
                         placeholder="Enter name" 
                         name="name" 
-                        [(ngModel)]="project.name"
+                        [(ngModel)]="task.name"
                     >
                 </div>
 
                 <div class="form__inner__field">
-                    <select required [(ngModel)]="">
-                        <option value=""></option>
-                        <option value=""></option>
-                        <option value=""></option>
-                        <option value=""></option>
+                    <h4>Description</h4>
+                    <textarea 
+                        required 
+                        maxlength="225" 
+                        placeholder="Enter description" 
+                        name="description" 
+                        [(ngModel)]="task.description"
+                    ></textarea>
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Importance</h4>
+                    <select required [(ngModel)]="task.importance">
+                        <option value="25">Low</option>
+                        <option value="50">Normal</option>
+                        <option value="75">Important</option>
+                        <option value="100">Very important</option>
+                    </select>
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Comlexity</h4>
+                    <select required [(ngModel)]="task.complexity">
+                        <option value="25">Easy</option>
+                        <option value="50">Normal</option>
+                        <option value="75">Difficult</option>
+                        <option value="100">Very difficult</option>
+                    </select>
+                </div>
+
+                <div class="form__inner__field">
+                    <h4>Urgency</h4>
+                    <select required [(ngModel)]="task.urgency">
+                        <option value="25">Low</option>
+                        <option value="50">Normal</option>
+                        <option value="75">High</option>
+                        <option value="100">Very high</option>
                     </select>
                 </div>
 
                 <div class="form__inner__buttons container">
                     <div class="container__element col-1-2">
-                        <button [disabled]="!form.valid" (click)="createProject()"><a>Create</a></button>
+                        <button [disabled]="!form.valid" (click)="createTask()"><a>Create</a></button>
                     </div>
                     <div class="container__element col-1-2">
                         <button>

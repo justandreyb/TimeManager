@@ -36,11 +36,11 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
-            this.id = +params['taskId']; 
-            this.userId = +params['userId']; 
-            this.projectId = +params['projectId']; 
-            
-            this.loadTask(this.userId, this.projectId, this.id);
+                this.id = +params['taskId']; 
+                this.userId = +params['userId']; 
+                this.projectId = +params['projectId']; 
+                
+                this.loadTask(this.userId, this.projectId, this.id);
             });
     }
 
@@ -52,7 +52,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
         if (this.userService.getUserId() == userId) { 
             this.httpService.getData("/users/" + userId + "/projects/" + projectId + "/tasks/" + id)
                 .catch((error) => {
-                    alert("Something went wrong");
+                    alert("Something went wrong while getting task. Error: " + error);
                     return null;
                 })
                 .subscribe((response) => {
@@ -61,7 +61,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
                     return null;
                 });
         } else {
-            alert("You are not logged in.");
+            alert("Permission denied. It's not your account");
             this.router.navigate(["/auth/login"]);
         }
     }

@@ -32,9 +32,9 @@
 
                 <div class="form__inner__field">
                     <h4>Importance</h4>
-                    <select required [(ngModel)]="project.importance">
+                    <select name="importance" required [(ngModel)]="project.importance">
                         <option value="25">Low</option>
-                        <option value="50">Normal</option>
+                        <option selected value="50">Normal</option>
                         <option value="75">Important</option>
                         <option value="100">Very important</option>
                     </select>

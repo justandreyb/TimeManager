@@ -46,13 +46,12 @@ export class SignInComponent implements OnInit {
     private sendData() {
         this.httpService.sendData("/login", User.serialize(this.account))
             .catch((error) => {
-                alert("Something went wrong. Try again later. Error: " + error);
+                alert("Something went wrong while login. Error: " + error);
                 return null;
             })
             .subscribe((response) => {
-                alert("Response: " + response);
                 this.servResponse = response;
-                this.httpService.setToken(this.servResponse.token);
+                this.httpService.setToken(this.servResponse.value);
                 this.router.navigate(['/welcome']);
                 return null;
             });

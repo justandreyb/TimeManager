@@ -30,7 +30,7 @@ export class ProfileEditComponent implements OnInit {
         private router: Router    
     ) { }
 
-    public changeUser() {
+    public editUser() {
         if (this.account.email != "" && this.account.email.includes("@")) {
             if (this.account.password == this.pass) {
                 
@@ -44,34 +44,37 @@ export class ProfileEditComponent implements OnInit {
     }
 
     private sendRequest() {
-        this.httpService.sendData("/profile/" + this.userService.getUserId() + "/edit", this.account)
+        this.httpService.sendData("/users/" + this.userService.getUserId() + "/edit", User.serialize(this.account))
             .catch((error) => {
                 alert("Something went wrong. Try again later. Error: " + error);
                 return null;
             })
-            .subscribe((response) => {
-                alert("Response: " + response);
-                this.servResponse = response;
-                this.httpService.setToken(this.servResponse.token);
-                this.router.navigate(['/welcome']);
-                return null;
+            .subscribe((answer) => {
+                if (answer != null && answer.error != null) {
+                    alert(answer.error);
+                } else {
+                    this.router.navigate(["../"]);
+                }
             });
     }
 
     private loadAccount() {
-        if (this.userService.getUserId() != null) { 
-            this.httpService.getData("/profile/" + this.userService.getUserId())
+        if (this.userService.getUserId() != null) {
+            let path = "/users/" + this.userService.getUserId();
+            alert(path);
+            this.httpService.getData(path)
                 .catch((error) => {
-                    alert("Something went wrong");
+                    alert("Something went wrong !!");
                     return null;
                 })
                 .subscribe((response) => {
-                    this.account = response;
+                    alert(response.toString());
+                    this.account = User.deserialize(response);
                     return null;
                 });
         } else {
             alert("You are not logged in.");
-            this.router.navigate(["/accounts/login/user"]);
+            this.router.navigate(["/auth/login"]);
         }
     }
 

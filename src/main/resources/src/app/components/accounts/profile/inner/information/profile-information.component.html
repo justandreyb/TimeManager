@@ -9,7 +9,7 @@
                 <div class="form__inner__field">
                     <h4>Email</h4>
                     <input 
-                        required
+                        disabled
                         type="text" 
                         maxlength="90" 
                         placeholder="Enter email" 
@@ -21,7 +21,7 @@
                 <div class="form__inner__field">
                     <h4>Nickname</h4>
                     <input 
-                        required 
+                        disabled 
                         type="text" 
                         maxlength="45" 
                         placeholder="Enter nickname" 
@@ -30,49 +30,10 @@
                     >
                 </div>
 
-                <div class="form__inner__field">
-                    <h4>Name</h4>
-                    <input 
-                        required 
-                        type="text" 
-                        maxlength="90" 
-                        placeholder="Enter name" 
-                        name="name" 
-                        [(ngModel)]="account.name"
-                    >
-                </div>
-
-                <div class="form__inner__field">
-                    <h4>Phone</h4>
-                    <input 
-                        required 
-                        type="tel" 
-                        maxlength="20" 
-                        placeholder="Enter phone number" 
-                        name="phoneNumber" 
-                        [(ngModel)]="account.phoneNumber"
-                    >
-                </div>
-
-                <div class="form__inner__field">
-                    <h4>Password</h4>
-                    <input 
-                        required 
-                        type="password" 
-                        maxlength="90" 
-                        placeholder="Password to continue" 
-                        name="repPass" 
-                        [(ngModel)]="rePass"
-                    >
-                </div>
-
                 <div class="form__inner__buttons container">
                     <div class="container__element col-1-2">
-                        <button [disabled]="!form.valid" (click)="deleteUser()"><a>Delete</a></button>
-                    </div>
-                    <div class="container__element col-1-2">
                         <button>
-                            <a routerLink='../'>Cancel</a>
+                            <a routerLink='../'>Back</a>
                         </button>
                     </div>
                 </div>

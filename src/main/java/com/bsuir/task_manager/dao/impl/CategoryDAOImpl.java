@@ -72,10 +72,10 @@ public class CategoryDAOImpl implements CategoryDAO {
             throw new DAOException(STORAGE_EXCEPTION);
         }
 
-        CategoryEntity categoryEntity = getCategoryFromStorage(session, userId, category.getName());
+        /*CategoryEntity categoryEntity = getCategoryFromStorage(session, userId, category.getName());
         if (categoryEntity != null) {
             throw new ExistsDAOException("Category already exists");
-        }
+        }*/
 
         session.save(category);
     }

@@ -115,10 +115,10 @@ public class TaskDAOImpl implements TaskDAO {
             throw new DAOException(STORAGE_EXCEPTION);
         }
 
-        TaskEntity existsTask = getTaskFromStorage(session, projectId, task.getName());
+       /* TaskEntity existsTask = getTaskFromStorage(session, projectId, task.getName());
         if (existsTask != null) {
             throw new ExistsDAOException("Task already exists");
-        }
+        }*/
 
         session.save(task);
     }

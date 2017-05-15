@@ -12,6 +12,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -31,7 +32,7 @@ public class ProjectDAOImpl implements ProjectDAO {
                 "id = :inputUser and " +
                 "deleted = :inputDeleted";
 
-    private static final String GET_Project_QUERY =
+    private static final String GET_PROJECT_QUERY =
             "from ProjectEntity " +
             "where " +
                 "user = :inputUser and " +
@@ -66,7 +67,7 @@ public class ProjectDAOImpl implements ProjectDAO {
     }
 
     private ProjectEntity getProjectFromStorage(Session session, int userId, String projectName) throws DAOException {
-        Query query = session.createQuery(GET_Project_QUERY);
+        Query query = session.createQuery(GET_PROJECT_QUERY);
 
         query.setParameter("inputUser", getUserFromStorage(session, userId));
         query.setParameter("inputName", projectName);
@@ -81,11 +82,15 @@ public class ProjectDAOImpl implements ProjectDAO {
         if (session == null) {
             throw new DAOException(STORAGE_EXCEPTION);
         }
+        UserEntity userEntity = session.load(UserEntity.class, userId);
+        project.setUser(userEntity);
 
-        ProjectEntity projectEntity = getProjectFromStorage(session, userId, project.getName());
+        project.setStartDate(new Timestamp(System.currentTimeMillis()));
+
+        /*ProjectEntity projectEntity = getProjectFromStorage(session, userId, project.getName());
         if (projectEntity != null) {
             throw new ExistsDAOException("Project already exists");
-        }
+        }*/
 
         session.save(project);
     }

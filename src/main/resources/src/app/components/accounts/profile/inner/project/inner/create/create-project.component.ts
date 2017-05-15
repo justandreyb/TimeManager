@@ -38,10 +38,17 @@ export class ProjectCreateComponent {
 
     private sendRequest() {
         if (this.userService.isAuth()){
-            this.httpService.sendData("/users/" + this.userService.getUserId + "/projects/create", Project.serialize(this.project))
+            this.httpService.sendData("/users/" + this.userService.getUserId() + "/projects/create", Project.serialize(this.project))
                 .catch((error) => {
                     alert("Something went wrong. Try again later. Error: " + error);
                     return null;
+                })
+                .subscribe((answer) => {
+                    if (answer != null && answer.error != null) {
+                        alert(answer.error);
+                    } else {
+                        this.router.navigate(["../"]);
+                    }
                 });
         } else {
             alert("You are not logged in");
@@ -54,6 +61,21 @@ export class ProjectCreateComponent {
         var mm = today.getMonth() + 1;
         var yyyy = today.getFullYear();
 
-        return yyyy + '/' + mm + '/' + dd;
+        let final = yyyy.toString();
+        if (mm < 10) {
+            final = final + "-0";
+        } else {
+            final = final + "-";
+        }
+        final = final + mm.toString();
+
+        if (dd < 10) {
+            final = final + "-0";
+        } else {
+            final = final + "-";
+        }
+        final = final + dd.toString();
+
+        return final;
     }
 }

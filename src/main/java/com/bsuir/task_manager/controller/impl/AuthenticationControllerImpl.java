@@ -39,8 +39,6 @@ public class AuthenticationControllerImpl implements AuthenticationController {
 
             String token = tokenService.getToken(user.getEmail(), user.getPassword());
             return new TokenView(token);
-
-
         } catch (ExistsServiceException e) {
             throw new UserExistsControllerException("User already exists", e);
         } catch (WrongInputServiceException e) {
@@ -51,9 +49,10 @@ public class AuthenticationControllerImpl implements AuthenticationController {
     }
 
     @Override
-    public TokenView signIn(@RequestParam("email") String email, @RequestParam("password") String password) throws ControllerException {
+    public TokenView signIn(@RequestBody UserView userView) throws ControllerException {
         try {
-            UserView user = service.getUser(email, password);
+            userView.setPassword(ArgumentUtil.generatePass(userView.getPassword()));
+            UserView user = service.getUser(userView.getEmail(), userView.getPassword());
             String token = tokenService.getToken(user.getEmail(), user.getPassword());
             return new TokenView(token);
         } catch (ExistsServiceException e) {

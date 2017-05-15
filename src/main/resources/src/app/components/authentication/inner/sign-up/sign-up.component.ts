@@ -44,12 +44,12 @@ export class SignUpComponent {
     private sendRequest() {
         this.httpService.sendData("/registration", User.serialize(this.account))
             .catch((error) => {
-                alert("Something went wrong. Try again later. Error: " + error);
+                alert("Something went wrong while creating account. Error: " + error);
                 return null;
             })
             .subscribe((response) => {
                 this.servResponse = response;
-                this.httpService.setToken(this.servResponse.token);
+                this.httpService.setToken(this.servResponse.value);
                 this.router.navigate(['/welcome']);
                 return null;
             });

@@ -36,12 +36,12 @@ export class Category {
 
     public static deserialize(input: any): Category {
         var res = new Category();
-        res._id = input._id;
-        res._name = input._name;
-        res._global = input._global;
-        res._creatorId = input._creatorId;
+        res._id = input.id;
+        res._name = input.name;
+        res._global = input.global;
+        res._creatorId = input.creatorId;
         
-        let tasks = input._tasks;
+        let tasks = input.tasks;
 
         for (var i = 0; i < tasks.length; i++) {
             res._tasks.push(Task.deserialize(tasks[i]));

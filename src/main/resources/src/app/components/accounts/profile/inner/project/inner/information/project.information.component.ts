@@ -49,7 +49,7 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
         if (this.userService.getUserId() == userId) { 
             this.httpService.getData("/users/" + userId + "/projects/" + id)
                 .catch((error) => {
-                    alert("Something went wrong");
+                    alert("Something went wrong while getting project. Error: " + error);
                     return null;
                 })
                 .subscribe((response) => {

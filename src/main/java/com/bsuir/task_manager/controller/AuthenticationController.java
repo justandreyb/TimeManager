@@ -12,7 +12,7 @@ public interface AuthenticationController {
 
     @PostMapping("/login")
     @ResponseBody
-    TokenView signIn(@RequestParam("email") String email, @RequestParam("password") String password) throws ControllerException;
+    TokenView signIn(@RequestBody UserView user) throws ControllerException;
 
     @GetMapping("/logout")
     void signOut() throws ControllerException;

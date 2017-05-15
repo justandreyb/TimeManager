@@ -13,15 +13,15 @@ export const profileRoutes : Routes = [
         component: ProfileComponent,
         children: [
             {
-                path: ':profileId',
+                path: ':userId',
                 component: ProfileInfoComponent
             },
             {
-                path: ':profileId/edit',
+                path: ':userId/edit',
                 component: ProfileEditComponent
             },
             {
-                path: ':profileId/projects',
+                path: ':userId/projects',
                 children: [...projectRoutes]
             }
         ]

@@ -48,10 +48,11 @@ export class Project {
         res._finished = input.finished;
         res._deleted = input.deleted;
         
-        let tasks = input._tasks;
-
-        for (var i = 0; i < tasks.length; i++) {
-            res._tasks.push(Task.deserialize(tasks[i]));
+        let tasks = input.tasks;
+        if (tasks != null) {
+            for (var i = 0; i < tasks.length; i++) {
+                res._tasks.push(Task.deserialize(tasks[i]));
+            }
         }
 
         return res;

@@ -9,11 +9,17 @@ import { UserService } from "../../../../../../../../../services/UserService";
 
 @Component({
     selector: 'profile__projects__tasks__list',
-    templateUrl: 'src/app/components/accounts/profile/inner/project/inner/list/list-project.component.html'
+    templateUrl: 'src/app/components/accounts/profile/inner/project/inner/list/list-project.component.html',
+    styleUrls: [
+        'src/app/assets/grid.css',
+        'src/app/assets/form.css',
+        'src/app/assets/panel.css'
+    ]
 })
 
-export class ProjectsComponent {
+export class TasksComponent {
 
+    private userId: number;
     private projectId: number;
     private sub: any;
 
@@ -28,9 +34,10 @@ export class ProjectsComponent {
     
     ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-        this.projectId = +params['projectId']; 
-        
-        this.loadTasks(this.projectId);
+            this.projectId = +params['projectId']; 
+            this.userId = +params['userId']; 
+            
+            this.loadTasks(this.userId, this.projectId);
         });
     }
 
@@ -38,11 +45,11 @@ export class ProjectsComponent {
         this.sub.unsubscribe();
     }
 
-    private loadTasks(projectId: number) {
+    private loadTasks(userId: number, projectId: number) {
         if (this.userService.getUserId() != null) {
-            this.httpService.getData("/users/" + this.userService.getUserId() + "/projects" + projectId + "/tasks")
+            this.httpService.getData("/users/" + userId + "/projects" + projectId + "/tasks")
                 .catch((error) => {
-                    alert("Something went wrong");
+                    alert("Something went wrong while getting tasks. Error: " + error);
                     return null;
                 })
                 .subscribe((data) => {
@@ -50,7 +57,7 @@ export class ProjectsComponent {
                     return null;
                 })
         } else {
-            alert("You are not logged in");
+            alert("Permission denied. It's not your account");
         }
     }
 

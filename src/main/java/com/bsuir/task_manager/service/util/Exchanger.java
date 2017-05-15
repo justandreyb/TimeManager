@@ -19,8 +19,10 @@ public class Exchanger {
         userView.setDeleted(userEntity.isDeleted());
 
         List<ProjectView> projectViews = new ArrayList<ProjectView>();
-        for (ProjectEntity projectEntity : userEntity.getProjects()) {
-            projectViews.add(exchange(projectEntity));
+        if (userEntity.getProjects() != null) {
+            for (ProjectEntity projectEntity : userEntity.getProjects()) {
+                projectViews.add(exchange(projectEntity));
+            }
         }
 
         userView.setProjects(projectViews);
@@ -38,10 +40,11 @@ public class Exchanger {
         categoryView.setName(categoryEntity.getName());
 
         List<TaskView> taskViews = new ArrayList<TaskView>();
-        for (TaskEntity taskEntity : categoryEntity.getTasks()) {
-            taskViews.add(exchange(taskEntity));
+        if (categoryEntity.getTasks() != null) {
+            for (TaskEntity taskEntity : categoryEntity.getTasks()) {
+                taskViews.add(exchange(taskEntity));
+            }
         }
-
         categoryView.setTasks(taskViews);
 
         return categoryView;
@@ -77,7 +80,6 @@ public class Exchanger {
 
         projectView.setId(projectEntity.getId());
         projectView.setName(projectEntity.getName());
-        projectView.setUser(exchange(projectEntity.getUser()));
         projectView.setFinished(projectEntity.isFinished());
         projectView.setDeleted(projectEntity.isDeleted());
         projectView.setStartDate(projectEntity.getStartDate());
@@ -85,10 +87,11 @@ public class Exchanger {
         projectView.setImportance(projectEntity.getImportance());
 
         List<TaskView> taskViews = new ArrayList<TaskView>();
-        for (TaskEntity taskEntity : projectEntity.getTasks()) {
-            taskViews.add(exchange(taskEntity));
+        if (projectEntity.getTasks() != null) {
+            for (TaskEntity taskEntity : projectEntity.getTasks()) {
+                taskViews.add(exchange(taskEntity));
+            }
         }
-
         projectView.setTasks(taskViews);
 
         return projectView;
@@ -101,12 +104,19 @@ public class Exchanger {
         userEntity.setEmail(userView.getEmail());
         userEntity.setPassword(userView.getPassword());
         userEntity.setNickname(userView.getNickname());
-        userEntity.setRole(exchange(userView.getRole()));
+        if (userView.getRole() != null) {
+            userEntity.setRole(exchange(userView.getRole()));
+        } else {
+            userEntity.setRole(null);
+        }
+
         userEntity.setDeleted(userView.isDeleted());
 
         List<ProjectEntity> projectEntities = new ArrayList<ProjectEntity>();
-        for (ProjectView projectView : userView.getProjects()) {
-            projectEntities.add(exchange(projectView));
+        if (userView.getProjects() != null) {
+            for (ProjectView projectView : userView.getProjects()) {
+                projectEntities.add(exchange(projectView));
+            }
         }
 
         userEntity.setProjects(projectEntities);
@@ -124,10 +134,11 @@ public class Exchanger {
         categoryEntity.setName(categoryView.getName());
 
         List<TaskEntity> taskEntities = new ArrayList<TaskEntity>();
-        for (TaskView taskView : categoryView.getTasks()) {
-            taskEntities.add(exchange(taskView));
+        if (categoryView.getTasks() != null) {
+            for (TaskView taskView : categoryView.getTasks()) {
+                taskEntities.add(exchange(taskView));
+            }
         }
-
         categoryEntity.setTasks(taskEntities);
 
         return categoryEntity;
@@ -140,7 +151,13 @@ public class Exchanger {
         taskEntity.setName(taskView.getName());
         taskEntity.setDeleted(taskView.isDeleted());
         taskEntity.setDescription(taskView.getDescription());
-        taskEntity.setCategory(exchange(taskView.getCategory()));
+
+        if (taskView.getCategory() != null) {
+            taskEntity.setCategory(exchange(taskView.getCategory()));
+        } else {
+            taskEntity.setCategory(null);
+        }
+
         taskEntity.setComplexity(taskView.getComplexity());
         taskEntity.setImportance(taskView.getImportance());
         taskEntity.setUrgency(taskView.getUrgency());
@@ -163,7 +180,13 @@ public class Exchanger {
 
         projectEntity.setId(projectView.getId());
         projectEntity.setName(projectView.getName());
-        projectEntity.setUser(exchange(projectView.getUser()));
+
+        if (projectView.getUser() != null) {
+            projectEntity.setUser(exchange(projectView.getUser()));
+        } else {
+            projectEntity.setUser(null);
+        }
+
         projectEntity.setFinished(projectView.isFinished());
         projectEntity.setDeleted(projectView.isDeleted());
         projectEntity.setStartDate(projectView.getStartDate());
@@ -171,10 +194,11 @@ public class Exchanger {
         projectEntity.setImportance(projectView.getImportance());
 
         List<TaskEntity> taskEntities = new ArrayList<TaskEntity>();
-        for (TaskView taskView : projectView.getTasks()) {
-            taskEntities.add(exchange(taskView));
+        if (projectView.getTasks() != null) {
+            for (TaskView taskView : projectView.getTasks()) {
+                taskEntities.add(exchange(taskView));
+            }
         }
-
         projectEntity.setTasks(taskEntities);
 
         return projectEntity;

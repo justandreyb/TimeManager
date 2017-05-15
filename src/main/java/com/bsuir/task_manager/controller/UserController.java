@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 public interface UserController {
 
     @PreAuthorize("hasAuthority('user')")
+    @GetMapping("/{userId}")
+    @ResponseBody
+    UserView getUser(@PathVariable int userId) throws ControllerException;
+
+    @PreAuthorize("hasAuthority('user')")
     @PostMapping("/{userId}/edit")
     void updateUser(@PathVariable int userId, @RequestBody UserView user) throws ControllerException;
 

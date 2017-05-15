@@ -53,10 +53,16 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         if (this.userId == this.userService.getUserId()) {
             this.httpService.sendData("/users/" + this.userId + "/projects/" + this.id + "/edit", Project.serialize(this.project))
                 .catch((error) => {
-                    alert("Something went wrong. Try again later. Error: " + error);
+                    alert("Something went wrong while editing project. Error: " + error);
                     return null;
                 })
-                .subscribe(() => {});
+                .subscribe((answer) => {
+                    if (answer != null && answer.error != null) {
+                        alert(answer.error);
+                    } else {
+                        this.router.navigate(["../"]);
+                    }
+                });
         } else {
             alert("Forbidden. It's project not by user with nickname " + this.userService.getUserNick());
         }
@@ -66,7 +72,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         if (this.userService.getUserId() == userId) { 
             this.httpService.getData("/users/" + userId + "/projects/" + id)
                 .catch((error) => {
-                    alert("Something went wrong");
+                    alert("Something went wrong while geting project. Error: " + error);
                     return null;
                 })
                 .subscribe((response) => {
